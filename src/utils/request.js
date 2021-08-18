@@ -4,7 +4,7 @@
  * @Author: IT飞牛
  * @Date: 2021-08-17 22:02:54
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-08-17 23:45:21
+ * @LastEditTime: 2021-08-19 00:17:23
  */
 import axios from "axios";
 import { Message } from "element-ui";
@@ -18,8 +18,8 @@ const service = axios.create({
 
 service.interceptors.request.use(
     config => {
-        if (store.state.token) {
-            config.headers['X-Token'] = getToken()
+        if (store.getters.token) {
+            config.headers['Authorization'] = 'Bearer ' + getToken()
         }
         return config;
     },
@@ -32,13 +32,6 @@ service.interceptors.request.use(
 service.interceptors.response.use(res => {
     res = res.data;
     if (res.code === -1) {
-        Message({
-            message: res.message || 'Error',
-            type: 'error',
-            duration: 5 * 1000
-        })
-        return;
-    } else if (res.code > 0) {
         Message({
             message: res.message || 'Error',
             type: 'error',

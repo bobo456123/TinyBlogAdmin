@@ -1,4 +1,12 @@
-module.exports = {
+/*
+ * @Descripttion: 
+ * @version: 1.0.0
+ * @Author: IT飞牛
+ * @Date: 2021-08-12 23:27:24
+ * @LastEditors: 
+ * @LastEditTime: 2021-08-18 23:51:42
+ */
+const admin = {
     namespaced: true,
     state: { name: "module admin" },
     getters: {
@@ -23,3 +31,5 @@ module.exports = {
         }
     }
 };
+
+export default admin;

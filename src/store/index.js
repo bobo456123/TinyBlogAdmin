@@ -4,14 +4,16 @@
  * @Author: IT飞牛
  * @Date: 2021-08-12 23:11:32
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-08-17 23:04:58
+ * @LastEditTime: 2021-08-19 00:22:54
  */
 import Vue from 'vue'
 import Vuex from 'vuex'
+import admin from "./module/admin";
+import user from "./module/user";
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
     state: {
         name: "root"
     },
@@ -19,7 +21,8 @@ export default new Vuex.Store({
         token: state => state.user.token,
     },
     modules: {
-        admin: require("./module/admin"),
-        user: require("./module/user"),
+        admin: admin,
+        user: user
     }
 });
+export default store;

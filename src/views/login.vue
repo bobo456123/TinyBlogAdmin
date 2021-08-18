@@ -4,13 +4,13 @@
  * @Author: IT飞牛
  * @Date: 2021-08-12 22:22:28
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-08-17 23:36:15
+ * @LastEditTime: 2021-08-19 00:13:06
 -->
 <template>
   <div class="typecho-login-wrap">
     <div class="typecho-login">
       <h1><a href="http://typecho.org" class="i-logo">Typecho</a></h1>
-      <form name="login" role="form" onSubmit="return false;">
+      <form role="form" onSubmit="return false;">
         <p>
           <label for="name" class="sr-only">用户名</label>
           <input
@@ -18,7 +18,7 @@
             placeholder="用户名"
             class="text-l w-100"
             autofocus=""
-            v-model="username"
+            v-model="model.name"
           />
         </p>
         <p>
@@ -26,13 +26,16 @@
           <input
             type="password"
             class="text-l w-100"
-            v-model="password"
+            v-model="model.password"
             placeholder="密码"
           />
         </p>
         <p class="submit">
           <button type="submit" class="btn btn-l w-100 primary" @click="login">
             登录
+          </button>
+          <button type="submit" class="btn btn-l w-100 primary" @click="user">
+            用户
           </button>
           <input type="hidden" name="referer" value="" />
         </p>
@@ -58,24 +61,31 @@
 </template>
 
 <script>
-import { login as loginR } from "@/api/user.js";
+import { user } from "@/api/user";
 export default {
   name: "login",
   data() {
     return {
-      username: "admin",
-      password: "123",
+      model: {
+        name: "admin",
+        password: "123",
+      },
     };
   },
   methods: {
-    login: function () {
-      console.log(this.username, this.password);
-      loginR({
-        name: this.username,
-        password: this.password,
-      }).then(function (data) {
-        console.log("登录成功", data);
-      });
+    login() {
+      this.$store
+        .dispatch("user/login", this.model)
+        .then(() => {
+          console.log("登录成功");
+          // this.$router.push({ path: "/admin" });
+        })
+        .catch(() => {
+          console.log("登录失败");
+        });
+    },
+    user() {
+      user()
     },
   },
 };

@@ -4,17 +4,17 @@
  * @Author: IT飞牛
  * @Date: 2021-08-17 22:14:50
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-08-17 23:14:20
+ * @LastEditTime: 2021-08-19 00:17:38
  */
 
-// import { getToken, setToken } from "@/utils/auth";
-// console.log(getToken, setToken);
+import { getToken, setToken } from "@/utils/auth";
+import { login } from "@/api/user";
 
 const user = {
     namespaced: true,
     state: {
         name: "module user",
-        token: "token 123465"
+        token: getToken()
     },
     getters: {
         theName: function (state) {
@@ -24,23 +24,28 @@ const user = {
     mutations: {
         setToken: function (state, val) {
             state.token = val;
-            // setToken(val);      //elementui-admin-vue中没这句
-        },
-        test: function (state) {
-            console.log(state.name);
-            return state.name;
+            setToken(val);      //elementui-admin-vue中没这句
         }
     },
+    //参数ctx/{commit,state,getters,dispatch }
     actions: {
-        asynctest: function (context) {
-            return new Promise((r) => {
-                setTimeout(() => {
-                    console.log(context);
-                    r("1000ms之后");
-                }, 1000);
+        login({ commit }, payload) {
+            return new Promise((r, j) => {
+                login(payload)
+                    .then((res) => {
+                        if (res.code === 0) {
+                            commit("setToken", res.data.token);
+                            r();
+                            return;
+                        }
+                        j();
+                    })
+                    .catch(function () {
+                        j();
+                    });
             });
         }
     }
 };
 
-module.exports = user;
+export default user;
