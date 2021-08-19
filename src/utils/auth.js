@@ -4,13 +4,13 @@
  * @Author: IT飞牛
  * @Date: 2021-08-17 22:17:41
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-08-18 23:59:51
+ * @LastEditTime: 2021-08-19 21:58:47
  */
 import Cookies from "js-cookie";
 const TOKENKEY = "admin-token";
 
 export function getToken() {
-    Cookies.get(TOKENKEY);
+    return Cookies.get(TOKENKEY);
 }
 export function setToken(val) {
     Cookies.set(TOKENKEY, val);
