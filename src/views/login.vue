@@ -4,7 +4,7 @@
  * @Author: IT飞牛
  * @Date: 2021-08-12 22:22:28
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-08-19 00:13:06
+ * @LastEditTime: 2021-08-21 16:38:01
 -->
 <template>
   <div class="typecho-login-wrap">
@@ -45,23 +45,23 @@
               type="checkbox"
               name="remember"
               class="checkbox"
-              value="1"
-              id="remember"
+              v-model="rememberPWD"
+              @change="setRemPWD"
             />
-            下次自动登录</label
+            记住密码</label
           >
         </p>
       </form>
 
       <p class="more-link">
-        <a href="http://127.0.0.2/">返回首页</a>
+        <a href="/">返回首页</a>
       </p>
     </div>
   </div>
 </template>
 
 <script>
-import { user } from "@/api/user";
+import { user, checkToken } from "@/api/user";
 export default {
   name: "login",
   data() {
@@ -70,7 +70,19 @@ export default {
         name: "admin",
         password: "123",
       },
+      rememberPWD: this.$cookie.get("rememberPWD") == "1" ? 1 : 0,
     };
+  },
+  mounted() {
+    if (this.rememberPWD) {
+      checkToken().then((res) => {
+        if (res.code === 0) {
+          console.log("有效");
+        } else {
+          console.log("无效");
+        }
+      });
+    }
   },
   methods: {
     login() {
@@ -84,8 +96,11 @@ export default {
           console.log("登录失败");
         });
     },
+    setRemPWD() {
+      this.$cookie.set("rememberPWD", this.rememberPWD ? 1 : 0);
+    },
     user() {
-      user()
+      user();
     },
   },
 };
