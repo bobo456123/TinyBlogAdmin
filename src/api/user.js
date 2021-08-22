@@ -4,16 +4,15 @@
  * @Author: IT飞牛
  * @Date: 2021-08-17 22:33:40
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-08-21 16:35:12
+ * @LastEditTime: 2021-08-22 15:36:46
  */
 import request from "@/utils/request";
 
 //检验口令
-export function checkToken(data) {
+export function getCurrentInfo() {
     return request({
-        url: "/api/checkToken",
-        method: "post",
-        data
+        url: "/api/getCurrentInfo",
+        method: "get"
     });
 }
 //登录

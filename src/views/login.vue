@@ -4,7 +4,7 @@
  * @Author: IT飞牛
  * @Date: 2021-08-12 22:22:28
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-08-21 16:38:01
+ * @LastEditTime: 2021-08-22 22:29:36
 -->
 <template>
   <div class="typecho-login-wrap">
@@ -48,7 +48,7 @@
               v-model="rememberPWD"
               @change="setRemPWD"
             />
-            记住密码</label
+            下次自动登录</label
           >
         </p>
       </form>
@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import { user, checkToken } from "@/api/user";
+import { user, getCurrentInfo } from "@/api/user";
 export default {
   name: "login",
   data() {
@@ -75,22 +75,26 @@ export default {
   },
   mounted() {
     if (this.rememberPWD) {
-      checkToken().then((res) => {
-        if (res.code === 0) {
-          console.log("有效");
-        } else {
-          console.log("无效");
-        }
-      });
+      this.toAdmin();
     }
   },
   methods: {
+    toAdmin() {
+      const self = this;
+      getCurrentInfo()
+        .then(() => {
+          const redirect = self.$route.query["redirect"] || "/admin";
+          self.$router.push({ path: redirect });
+        })
+        .catch(() => {
+          console.log("无效");
+        });
+    },
     login() {
       this.$store
         .dispatch("user/login", this.model)
         .then(() => {
-          console.log("登录成功");
-          // this.$router.push({ path: "/admin" });
+          this.toAdmin();
         })
         .catch(() => {
           console.log("登录失败");
