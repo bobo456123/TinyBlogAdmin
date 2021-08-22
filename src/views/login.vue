@@ -4,7 +4,7 @@
  * @Author: IT飞牛
  * @Date: 2021-08-12 22:22:28
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-08-22 22:29:36
+ * @LastEditTime: 2021-08-22 23:06:11
 -->
 <template>
   <div class="typecho-login-wrap">
@@ -74,6 +74,7 @@ export default {
     };
   },
   mounted() {
+    this.$layer.alert();
     if (this.rememberPWD) {
       this.toAdmin();
     }
