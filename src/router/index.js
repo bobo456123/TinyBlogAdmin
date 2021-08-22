@@ -7,12 +7,15 @@ export default new Router({
     routes: [
         {
             path: "/",
-            redirect: "/login"
+            redirect: "/login",
         },
         {
             path: "/login",
             name: "login",
-            component: () => import("@/views/login")
+            component: () => import("@/views/login"),
+            meta: {
+                title: "登录"
+            }
         },
         {
             path: "/admin",
