@@ -4,13 +4,20 @@
  * @Author: IT飞牛
  * @Date: 2021-08-22 23:07:09
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-08-22 23:38:25
+ * @LastEditTime: 2021-08-23 23:33:12
 -->
 <template>
-  <div v-if="isShow">
-    <div class="title">{{ title }}</div>
-    <div class="content">{{ content }}</div>
-    <div class="button">确定 取消</div>
+  <div v-if="isShow" class="layer mask">
+    <div class="layer_alert">
+      <div class="layer_alert_title">
+        {{ title }}
+        <div class="close" @click="onClose">x</div>
+      </div>
+      <div class="layer_alert_content">{{ content }}</div>
+      <div class="layer_alert_button">
+        <div class="tbtn sure fr" @click="onSure">确定</div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -33,6 +40,12 @@ export default {
     };
   },
   methods: {
+    onSure() {
+      this.$emit("sure", this);
+    },
+    onClose() {
+      this.$emit("close", this);
+    },
     show() {
       this.isShow = true;
     },

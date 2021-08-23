@@ -1,0 +1,55 @@
+.layer {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.layer.mask {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.layer .layer_alert {
+    width: 600px;
+    /* height: 450px; */
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border-radius: 3px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    padding: 10px;
+}
+
+.layer .layer_alert .layer_alert_title {
+    height: 50px;
+    line-height: 50px;
+    border-bottom: 1px solid #ddd;
+    font-size: 16px;
+    position: relative;
+}
+
+.layer .layer_alert .layer_alert_title>div.close {
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    position: absolute;
+    right: 0;
+    top: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.layer .layer_alert .layer_alert_content {
+    height: 250px;
+    padding: 10px 0;
+    font-size: 14px;
+    line-height: 120%;
+}
+
+.layer .layer_alert .layer_alert_button {
+    height: 40px;
+}

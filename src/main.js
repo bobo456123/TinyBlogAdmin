@@ -4,7 +4,7 @@
  * @Author: IT飞牛
  * @Date: 2021-08-12 21:39:00
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-08-22 21:15:54
+ * @LastEditTime: 2021-08-23 21:28:10
  */
 import Vue from 'vue'
 import App from './App.vue'
@@ -12,6 +12,8 @@ import router from './router'
 import store from './store'
 import '@/permission'
 import "@/assets/css/style.css";
+import "@/assets/css/ui.css";
+import "@/assets/css/layer.css";
 import myPlugin from '@/plugin/myPlugin'
 
 Vue.config.productionTip = false

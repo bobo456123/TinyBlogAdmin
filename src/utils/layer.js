@@ -4,7 +4,7 @@
  * @Author: IT飞牛
  * @Date: 2021-08-22 23:02:07
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-08-22 23:49:43
+ * @LastEditTime: 2021-08-23 23:44:05
  */
 import Vue from "vue";
 
@@ -18,12 +18,25 @@ const modules = modulesFiles.keys().reduce((modules, modulePath) => {
 }, {});
 
 export default {
-    _create(component, props) {
+    _create(component, { props, on }) {
+        //各类组件的事件监听,component.name是key，必填；
+        const eventMap = {
+            alert: {
+                sure: function (vm) {
+                    //vm===返回的layer
+                    console.log("sure", vm);
+                },
+                close: function (vm) {
+                    vm.$remove();
+                }
+            }
+        };
         //方案一：渲染函数
         const vm = new Vue({
             render: h => {
                 return h(component, {
-                    props
+                    props,
+                    on: Object.assign({}, eventMap[component.name], on)
                 });
             }
         }).$mount();
@@ -38,8 +51,8 @@ export default {
 
         //方案二：也可使用Vue.extend()来实现弹窗,使用propsData。
     },
-    alert: function (props) {
-        let layer = this._create(modules.alert, props || {});
+    alert: function (option) {
+        let layer = this._create(modules.alert, option || {});
         layer.show();
         return layer;
     }

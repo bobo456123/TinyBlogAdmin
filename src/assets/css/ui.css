@@ -1,0 +1,126 @@
+/* ----通用---- */
+
+.clr {
+    clear: both;
+}
+
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+.text-c {
+    text-align: center;
+}
+
+.text-l {
+    text-align: left;
+}
+
+.text-r {
+    text-align: right;
+}
+
+/* 外边距 */
+
+.ml5 {
+    margin-left: 5px;
+}
+
+.ml10 {
+    margin-left: 10px;
+}
+
+.ml15 {
+    margin-left: 15px;
+}
+
+.ml20 {
+    margin-left: 20px;
+}
+
+.mr5 {
+    margin-right: 5px;
+}
+
+.mr10 {
+    margin-right: 10px;
+}
+
+.mr15 {
+    margin-right: 15px;
+}
+
+.mr20 {
+    margin-right: 20px;
+}
+
+.mt5 {
+    margin-top: 5px;
+}
+
+.mt10 {
+    margin-top: 10px;
+}
+
+.mt15 {
+    margin-top: 15px;
+}
+
+.mt20 {
+    margin-top: 20px;
+}
+
+.mb5 {
+    margin-bottom: 5px;
+}
+
+.mb10 {
+    margin-bottom: 10px;
+}
+
+.mb15 {
+    margin-bottom: 15px;
+}
+
+.mb20 {
+    margin-bottom: 20px;
+}
+
+/* ----按钮---- */
+
+.tbtn {
+    height: 38px;
+    line-height: 38px;
+    text-align: center;
+    min-width: 60px;
+    padding: 0 10px;
+    font-size: 14px;
+    background-color: white;
+    color: #333;
+    border: 1px solid #ddd;
+    cursor: pointer;
+}
+
+.tbtn:hover {
+    background-color: #f6f6f6;
+}
+
+.tbtn.sure {
+    background-color: #467B96;
+    border-bottom: 1px solid #467B96;
+    color: white;
+}
+
+.tbtn.sure:hover {
+    background-color: #326781;
+    border-bottom: 1px solid #326781;
+}
+
+.tbtn.disable {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
