@@ -4,7 +4,7 @@
  * @Author: IT飞牛
  * @Date: 2021-08-22 23:02:07
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-08-25 21:12:22
+ * @LastEditTime: 2021-08-25 23:11:17
  */
 import Vue from "vue";
 
@@ -32,8 +32,8 @@ export default {
                 }
             },
             popup: {
-                close: function (vm) {
-                    vm.$remove();
+                close: function () {
+                    // vm.$remove();
                 }
             }
         };
@@ -49,8 +49,8 @@ export default {
         }).$mount();
         const layer = vm.$children[0];
         layer.$remove = function () {
-            layer.$destroy();
             document.body.removeChild(layer.$el);
+            layer.$destroy();
         }
 
         document.body.appendChild(layer.$el);

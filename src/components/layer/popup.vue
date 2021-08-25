@@ -4,7 +4,7 @@
  * @Author: IT飞牛
  * @Date: 2021-08-22 23:07:09
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-08-25 21:34:50
+ * @LastEditTime: 2021-08-25 23:09:02
 -->
 <template>
   <div class="layer layer_popup overflow" :class="[type]">

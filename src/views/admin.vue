@@ -1,8 +1,13 @@
+<!--
+ * @Descripttion: 
+ * @version: 1.0.0
+ * @Author: IT飞牛
+ * @Date: 2021-08-12 22:23:07
+ * @LastEditors: 
+ * @LastEditTime: 2021-08-25 21:41:54
+-->
 <template>
-  <div>
-    admin
-    <router-view></router-view>
-  </div>
+  <router-view></router-view>
 </template>
 
 <script>

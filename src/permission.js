@@ -4,7 +4,7 @@
  * @Author: IT飞牛
  * @Date: 2021-08-22 14:57:31
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-08-22 22:59:11
+ * @LastEditTime: 2021-08-25 23:43:39
  */
 import router from "@/router";
 import { getToken } from "@/utils/auth";
@@ -30,10 +30,7 @@ router.beforeEach(function (to, from, next) {
         getCurrentInfo()
             .then(() => {
                 next();
-            })
-            .catch(() => {
-                console.log("无效");
-            });
+            }).catch(err => err);
     } else {
         next({ name: "login", query: { redirect: to.path } });
     }
