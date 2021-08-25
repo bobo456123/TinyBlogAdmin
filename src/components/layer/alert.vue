@@ -4,7 +4,7 @@
  * @Author: IT飞牛
  * @Date: 2021-08-22 23:07:09
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-08-23 23:33:12
+ * @LastEditTime: 2021-08-25 20:34:22
 -->
 <template>
   <div v-if="isShow" class="layer mask">
@@ -33,6 +33,10 @@ export default {
       type: String,
       default: "这里是alert提示内容！",
     },
+    duration: {
+      type: Number,
+      default: 0,
+    },
   },
   data() {
     return {
@@ -48,6 +52,11 @@ export default {
     },
     show() {
       this.isShow = true;
+      if (this.duration) {
+        setTimeout(() => {
+          this.$remove();
+        }, this.duration);
+      }
     },
     hide() {
       this.isShow = false;

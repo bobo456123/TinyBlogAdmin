@@ -4,7 +4,7 @@
  * @Author: IT飞牛
  * @Date: 2021-08-12 22:22:28
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-08-23 23:38:15
+ * @LastEditTime: 2021-08-25 20:36:16
 -->
 <template>
   <div class="typecho-login-wrap">
@@ -74,14 +74,11 @@ export default {
     };
   },
   mounted() {
-    this.$layer.alert({
-      props: { title: "123", content: "465" },
-      on: {
-        close: function (layer) {
-          console.log("close 2");
-          layer.$remove();
-        },
-      },
+    // this.$layer.alert({
+    //   props: { title: "弹窗标题", content: "弹窗内容", duration: 3000 },
+    // });
+    this.$layer.popup({
+      props: { content: "弹窗内容", type: "error" },
     });
     if (this.rememberPWD) {
       this.toAdmin();

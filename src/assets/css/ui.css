@@ -4,6 +4,12 @@
     clear: both;
 }
 
+.overflow {
+    white-space: nowrop;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .fl {
     float: left;
 }

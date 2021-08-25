@@ -4,7 +4,7 @@
  * @Author: IT飞牛
  * @Date: 2021-08-22 23:02:07
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-08-23 23:44:05
+ * @LastEditTime: 2021-08-25 21:04:12
  */
 import Vue from "vue";
 
@@ -18,6 +18,7 @@ const modules = modulesFiles.keys().reduce((modules, modulePath) => {
 }, {});
 
 export default {
+    _index: 10000,
     _create(component, { props, on }) {
         //各类组件的事件监听,component.name是key，必填；
         const eventMap = {
@@ -36,6 +37,7 @@ export default {
             render: h => {
                 return h(component, {
                     props,
+                    style: { "z-index": ++this._index },
                     on: Object.assign({}, eventMap[component.name], on)
                 });
             }
@@ -53,6 +55,11 @@ export default {
     },
     alert: function (option) {
         let layer = this._create(modules.alert, option || {});
+        layer.show();
+        return layer;
+    },
+    popup: function (option) {
+        let layer = this._create(modules.popup, option || {});
         layer.show();
         return layer;
     }

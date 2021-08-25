@@ -1,18 +1,19 @@
 .layer {
     position: fixed;
+}
+
+.layer.mask {
+    background: rgba(0, 0, 0, 0.3);
     left: 0;
     right: 0;
     top: 0;
     bottom: 0;
 }
 
-.layer.mask {
-    background: rgba(0, 0, 0, 0.3);
-}
+/* ----alert---- */
 
 .layer .layer_alert {
     width: 600px;
-    /* height: 450px; */
     position: absolute;
     left: 50%;
     top: 50%;
@@ -52,4 +53,39 @@
 
 .layer .layer_alert .layer_alert_button {
     height: 40px;
+}
+
+/* ----layer_popup---- */
+
+.layer.layer_popup {
+    top: 5px;
+    height: 40px;
+    line-height: 40px;
+    background-color: white;
+    border: 1px solid #eee;
+    font-size: 14px;
+    text-align: center;
+    padding: 0 20px;
+    min-width: 300px;
+    max-width: 90%;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: popupAnimation .5s normal;
+}
+
+.layer.layer_popup.success {
+    color: green;
+}
+
+.layer.layer_popup.error {
+    color: red;
+}
+
+@keyframes popupAnimation {
+    from {
+        transform: translate(-50%, 50%);
+    }
+    to {
+        transform: translateY(-50%, 0);
+    }
 }
