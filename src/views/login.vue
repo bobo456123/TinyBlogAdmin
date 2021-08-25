@@ -4,7 +4,7 @@
  * @Author: IT飞牛
  * @Date: 2021-08-12 22:22:28
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-08-25 20:36:16
+ * @LastEditTime: 2021-08-25 21:38:11
 -->
 <template>
   <div class="typecho-login-wrap">
@@ -74,12 +74,6 @@ export default {
     };
   },
   mounted() {
-    // this.$layer.alert({
-    //   props: { title: "弹窗标题", content: "弹窗内容", duration: 3000 },
-    // });
-    this.$layer.popup({
-      props: { content: "弹窗内容", type: "error" },
-    });
     if (this.rememberPWD) {
       this.toAdmin();
     }
@@ -90,10 +84,20 @@ export default {
       getCurrentInfo()
         .then(() => {
           const redirect = self.$route.query["redirect"] || "/admin";
-          self.$router.push({ path: redirect });
+          //进入后台
+          this.$layer.popup({
+            props: {
+              content: "登录成功",
+            },
+            on: {
+              close: function () {
+                self.$router.push({ path: redirect });
+              },
+            },
+          });
         })
         .catch(() => {
-          console.log("无效");
+          this.$layer.popup({ props: { content: "登录失败", type: "error" } });
         });
     },
     login() {
@@ -103,7 +107,7 @@ export default {
           this.toAdmin();
         })
         .catch(() => {
-          console.log("登录失败");
+          this.$layer.popup({ props: { content: "登录失败", type: "error" } });
         });
     },
     setRemPWD() {

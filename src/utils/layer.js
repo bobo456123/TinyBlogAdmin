@@ -4,7 +4,7 @@
  * @Author: IT飞牛
  * @Date: 2021-08-22 23:02:07
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-08-25 21:04:12
+ * @LastEditTime: 2021-08-25 21:12:22
  */
 import Vue from "vue";
 
@@ -30,6 +30,11 @@ export default {
                 close: function (vm) {
                     vm.$remove();
                 }
+            },
+            popup: {
+                close: function (vm) {
+                    vm.$remove();
+                }
             }
         };
         //方案一：渲染函数
@@ -44,8 +49,8 @@ export default {
         }).$mount();
         const layer = vm.$children[0];
         layer.$remove = function () {
-            document.body.removeChild(layer.$el);
             layer.$destroy();
+            document.body.removeChild(layer.$el);
         }
 
         document.body.appendChild(layer.$el);
@@ -60,7 +65,6 @@ export default {
     },
     popup: function (option) {
         let layer = this._create(modules.popup, option || {});
-        layer.show();
         return layer;
     }
 };

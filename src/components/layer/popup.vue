@@ -4,12 +4,11 @@
  * @Author: IT飞牛
  * @Date: 2021-08-22 23:07:09
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-08-25 20:49:29
+ * @LastEditTime: 2021-08-25 21:34:50
 -->
 <template>
   <div class="layer layer_popup overflow" :class="[type]">
     {{ type.toUpperCase() }} | {{ content }}
-    <div class="close" @click="hide">x</div>
   </div>
 </template>
 
@@ -30,23 +29,13 @@ export default {
       default: 3000,
     },
   },
-  data() {
-    return {
-      isShow: false,
-    };
-  },
-  methods: {
-    show() {
-      this.isShow = true;
-      if (this.duration) {
-        setTimeout(() => {
-          this.$remove();
-        }, this.duration);
-      }
-    },
-    hide() {
-      this.isShow = false;
-    },
+  mounted() {
+    if (this.duration) {
+      setTimeout(() => {
+        this.$emit("close", this);
+        this.$remove();
+      }, this.duration);
+    }
   },
 };
 </script>
