@@ -4,7 +4,7 @@
  * @Author: IT飞牛
  * @Date: 2021-08-17 22:02:54
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-08-25 23:30:37
+ * @LastEditTime: 2021-08-26 22:58:18
  */
 import axios from "axios";
 import $layer from "@/utils/layer";
@@ -12,7 +12,7 @@ import store from '@/store'
 import router from '@/router'
 import { getToken } from '@/utils/auth'
 import Cookies from "js-cookie";
-const versionPath = require("@/settings").version.path;
+const version = require("@/settings").version;
 
 const service = axios.create({
     baseURL: "http://127.0.0.1:7001/",
@@ -22,7 +22,10 @@ const service = axios.create({
 service.interceptors.request.use(
     config => {
         if (store.getters.token) {
-            config.url = config.url.replace(/\/api\//i, `/api/${versionPath}/`);
+            if (/^\/(api|auth)\//i.test(config.url)) {
+                config.url = "/" + version + config.url;
+            }
+
             config.headers['Authorization'] = 'Bearer ' + getToken()
         }
         return config;
@@ -54,7 +57,15 @@ service.interceptors.response.use(
     },
     error => {
         console.log('err' + error) // for debug
-        $layer.popup({ props: { content: "网络异常，轻重新尝试，或联系管理员!", type: "error" } });
+        $layer.popup({
+            props: { content: "网络异常，轻重新尝试，或联系管理员!", type: "error" },
+            on: {
+                close: () => {
+                    Cookies.set("rememberPWD", 0);
+                    router.push({ path: "/login" });
+                }
+            }
+        });
         return Promise.reject(error)
     });
 
