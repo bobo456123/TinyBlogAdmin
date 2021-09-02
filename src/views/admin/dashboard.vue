@@ -28,86 +28,9 @@
           <section class="latest-link">
             <h3>最近发布的文章</h3>
             <ul>
-              <li>
-                <span>5.7</span>
-                <a
-                  href="http://127.0.0.2/index.php/archives/12/"
-                  class="title"
-                  target="_blank"
-                  >第七篇文章</a
-                >
-              </li>
-              <li>
-                <span>5.7</span>
-                <a
-                  href="http://127.0.0.2/index.php/archives/10/"
-                  class="title"
-                  target="_blank"
-                  >第五篇文章</a
-                >
-              </li>
-              <li>
-                <span>5.7</span>
-                <a
-                  href="http://127.0.0.2/index.php/archives/15/"
-                  class="title"
-                  target="_blank"
-                  >第十篇文章</a
-                >
-              </li>
-              <li>
-                <span>5.7</span>
-                <a
-                  href="http://127.0.0.2/index.php/archives/14/"
-                  class="title"
-                  target="_blank"
-                  >第九篇文章</a
-                >
-              </li>
-              <li>
-                <span>5.7</span>
-                <a
-                  href="http://127.0.0.2/index.php/archives/9/"
-                  class="title"
-                  target="_blank"
-                  >第四篇文章</a
-                >
-              </li>
-              <li>
-                <span>5.7</span>
-                <a
-                  href="http://127.0.0.2/index.php/archives/7/"
-                  class="title"
-                  target="_blank"
-                  >第三篇文章</a
-                >
-              </li>
-              <li>
-                <span>5.2</span>
-                <a
-                  href="http://127.0.0.2/index.php/archives/4/"
-                  class="title"
-                  target="_blank"
-                  >第二篇文章</a
-                >
-              </li>
-              <li>
-                <span>5.2</span>
-                <a
-                  href="http://127.0.0.2/index.php/archives/3/"
-                  class="title"
-                  target="_blank"
-                  >这是第一篇帖子</a
-                >
-              </li>
-              <li>
-                <span>5.2</span>
-                <a
-                  href="http://127.0.0.2/index.php/archives/1/"
-                  class="title"
-                  target="_blank"
-                  >欢迎使用 Typecho</a
-                >
+              <li v-for="post in postList" :key="post.cid">
+                <span>{{post.created|timestampToDate|dateFormat("MM-dd")}}</span>
+                <a href="/archive/" class="title" target="_blank">{{post.title}}</a>
               </li>
             </ul>
           </section>
@@ -312,8 +235,24 @@
 </template>
 
 <script>
+import { list as postList } from "@/api/post";
 export default {
   name: "dashboard",
+  data() {
+    return {
+      postList: [],
+    };
+  },
+  created() {
+    let self = this;
+    postList({ pagesize: 9 }).then((res) => {
+      self.$util.resDo(res, {
+        0: function (res) {
+          self.postList = res.data.data;
+        },
+      });
+    });
+  },
 };
 </script>
 

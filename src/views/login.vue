@@ -4,7 +4,7 @@
  * @Author: IT飞牛
  * @Date: 2021-08-12 22:22:28
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-08-26 23:14:54
+ * @LastEditTime: 2021-09-01 20:06:17
 -->
 <template>
   <div class="typecho-login-wrap">
@@ -75,27 +75,31 @@ export default {
   },
   mounted() {
     if (this.rememberPWD) {
-      this.toAdmin();
+      this.toAdmin(false);
     }
   },
   methods: {
-    toAdmin() {
+    toAdmin(isShowTip = true) {
       const self = this;
       getCurrentInfo()
         .then((res) => {
           if (res.code === 0) {
             const redirect = self.$route.query["redirect"] || "/admin";
             //进入后台
-            this.$layer.popup({
-              props: {
-                content: "登录成功",
-              },
-              on: {
-                close: function () {
-                  self.$router.push({ path: redirect });
+            if (isShowTip) {
+              this.$layer.popup({
+                props: {
+                  content: "登录成功",
                 },
-              },
-            });
+                on: {
+                  close: function () {
+                    self.$router.push({ path: redirect });
+                  },
+                },
+              });
+            } else {
+              self.$router.push({ path: redirect });
+            }
           } else {
             this.$layer.popup({
               props: { content: "登录失败", type: "error" },

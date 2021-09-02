@@ -4,10 +4,11 @@
  * @Author: IT飞牛
  * @Date: 2021-08-12 22:23:07
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-08-26 21:09:26
+ * @LastEditTime: 2021-09-01 20:10:21
 -->
 <template>
   <div>
+    <!-- 公共头部 -->
     <div class="typecho-head-nav clearfix" role="navigation">
       <nav id="typecho-nav-list">
         <ul class="root focus">
@@ -94,7 +95,10 @@
       </div>
     </div>
 
+    <!-- 主区域 -->
     <router-view></router-view>
+
+    <!-- 公共底部 -->
     <div class="typecho-foot" role="contentinfo">
       <div class="copyright">
         <a href="http://typecho.org" class="i-logo-s" target="_blank"

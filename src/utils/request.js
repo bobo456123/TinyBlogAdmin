@@ -4,7 +4,7 @@
  * @Author: IT飞牛
  * @Date: 2021-08-17 22:02:54
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-08-26 22:58:18
+ * @LastEditTime: 2021-09-02 22:43:08
  */
 import axios from "axios";
 import $layer from "@/utils/layer";
@@ -42,7 +42,7 @@ service.interceptors.response.use(
         if (res.code === -1) {
             $layer.popup({
                 props: {
-                    content: '登录已过期，轻重新登录', type: "error"
+                    content: '登录已过期，请重新登录', type: "error"
                 },
                 on: {
                     close: () => {
