@@ -4,7 +4,7 @@
  * @Author: IT飞牛
  * @Date: 2021-08-12 22:23:07
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-09-01 20:10:21
+ * @LastEditTime: 2021-09-06 23:13:08
 -->
 <template>
   <div>
@@ -13,7 +13,7 @@
       <nav id="typecho-nav-list">
         <ul class="root focus">
           <li class="parent">
-            <a href="http://127.0.0.2/admin/index.php">控制台</a>
+            <a @click="$router.push({path:'/admin/dashboard'})">控制台</a>
           </li>
           <ul class="child">
             <li class="focus">
@@ -29,11 +29,11 @@
         </ul>
         <ul class="root">
           <li class="parent">
-            <a href="http://127.0.0.2/admin/write-post.php">撰写</a>
+            <a @click="$router.push({path:'/admin/post/add'})">撰写</a>
           </li>
           <ul class="child">
             <li>
-              <a href="http://127.0.0.2/admin/write-post.php">撰写文章</a>
+              <a @click="$router.push({path:'/admin/post/add'})">撰写文章</a>
             </li>
             <li class="last">
               <a href="http://127.0.0.2/admin/write-page.php">创建页面</a>
@@ -45,7 +45,7 @@
             <a href="http://127.0.0.2/admin/manage-posts.php">管理</a>
           </li>
           <ul class="child">
-            <li><a href="http://127.0.0.2/admin/manage-posts.php">文章</a></li>
+            <li><a @click="$router.push({path:'/admin/post'})">文章</a></li>
             <li>
               <a href="http://127.0.0.2/admin/manage-pages.php">独立页面</a>
             </li>
@@ -101,15 +101,15 @@
     <!-- 公共底部 -->
     <div class="typecho-foot" role="contentinfo">
       <div class="copyright">
-        <a href="http://typecho.org" class="i-logo-s" target="_blank"
-          >Typecho</a
+        <a :href="`${$settings.apiUrl}`" class="i-logo-s" target="_blank"
+          >{{$settings.siteName}}</a
         >
         <p>
-          由 <a href="http://typecho.org" target="_blank">Typecho</a> 强力驱动,
-          版本 1.1 (17.10.30)
+          由 <a :href="`${$settings.apiUrl}`" target="_blank">{{$settings.siteName}}</a> 强力驱动,
+          版本 {{$settings.version}}
         </p>
       </div>
-      <nav class="resource">
+      <!-- <nav class="resource">
         <a href="http://docs.typecho.org" target="_blank">帮助文档</a> •
         <a href="http://forum.typecho.org" target="_blank">支持论坛</a> •
         <a href="https://github.com/typecho/typecho/issues" target="_blank"
@@ -117,7 +117,7 @@
         >
         •
         <a href="http://extends.typecho.org" target="_blank">资源下载</a>
-      </nav>
+      </nav> -->
     </div>
   </div>
 </template>

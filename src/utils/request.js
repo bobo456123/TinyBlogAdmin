@@ -4,7 +4,7 @@
  * @Author: IT飞牛
  * @Date: 2021-08-17 22:02:54
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-09-02 22:43:08
+ * @LastEditTime: 2021-09-06 22:01:45
  */
 import axios from "axios";
 import $layer from "@/utils/layer";
@@ -12,10 +12,10 @@ import store from '@/store'
 import router from '@/router'
 import { getToken } from '@/utils/auth'
 import Cookies from "js-cookie";
-const version = require("@/settings").version;
+const settings = require("@/settings");
 
 const service = axios.create({
-    baseURL: "http://127.0.0.1:7001/",
+    baseURL: settings.apiUrl,
     timeout: 5000
 });
 
@@ -23,7 +23,7 @@ service.interceptors.request.use(
     config => {
         if (store.getters.token) {
             if (/^\/(api|auth)\//i.test(config.url)) {
-                config.url = "/" + version + config.url;
+                config.url = "/" + settings.version + config.url;
             }
 
             config.headers['Authorization'] = 'Bearer ' + getToken()

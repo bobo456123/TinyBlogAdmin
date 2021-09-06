@@ -4,7 +4,7 @@
  * @Author: IT飞牛
  * @Date: 2021-08-22 22:39:04
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-09-02 23:29:59
+ * @LastEditTime: 2021-09-06 21:58:55
  */
 const settings = require("@/settings.js");
 const $layer = require("@/utils/layer");
@@ -65,13 +65,17 @@ export function resDo(res, handles) {
 
 //时间戳转Date
 export function timestampToDate(timestamp) {
-    if (typeof timestamp !== "number") {
-        console.error("数据类型错误");
-        return;
+    // if (typeof timestamp !== "number") {
+    //     console.error("数据类型错误");
+    //     return;
+    // }
+    if (Number(timestamp)) {
+        timestamp = Number(timestamp);
+        if (timestamp.toString().length !== 13) {
+            timestamp *= 1e3;
+        }
     }
-    if (timestamp.toString().length !== 13) {
-        timestamp *= 1e3;
-    }
+
     return new Date(timestamp);
 }
 
