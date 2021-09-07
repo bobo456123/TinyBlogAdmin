@@ -4,7 +4,7 @@
  * @Author: IT飞牛
  * @Date: 2021-08-17 22:02:54
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-09-06 22:01:45
+ * @LastEditTime: 2021-09-07 20:13:15
  */
 import axios from "axios";
 import $layer from "@/utils/layer";
@@ -16,7 +16,7 @@ const settings = require("@/settings");
 
 const service = axios.create({
     baseURL: settings.apiUrl,
-    timeout: 5000
+    timeout: 0
 });
 
 service.interceptors.request.use(

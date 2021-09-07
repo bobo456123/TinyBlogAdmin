@@ -4,7 +4,7 @@
  * @Author: IT飞牛
  * @Date: 2021-08-12 22:35:42
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-09-06 23:12:03
+ * @LastEditTime: 2021-09-07 20:53:11
  */
 module.exports = [
     {
@@ -21,7 +21,7 @@ module.exports = [
         redirect: "post/list"
     },
     {
-        path: "post/list",
+        path: "post/list/:index?",
         name: "post-list",
         component: () => import("@/views/admin/post/list"),
         meta: {
