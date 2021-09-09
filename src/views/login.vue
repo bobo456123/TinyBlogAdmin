@@ -4,7 +4,7 @@
  * @Author: IT飞牛
  * @Date: 2021-08-12 22:22:28
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-09-01 20:06:17
+ * @LastEditTime: 2021-09-09 20:55:09
 -->
 <template>
   <div class="typecho-login-wrap">
@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import { user, getCurrentInfo } from "@/api/user";
+import { user } from "@/api/user";
 export default {
   name: "login",
   data() {
@@ -81,13 +81,14 @@ export default {
   methods: {
     toAdmin(isShowTip = true) {
       const self = this;
-      getCurrentInfo()
-        .then((res) => {
-          if (res.code === 0) {
+
+      this.$store.dispatch("user/getCurrentInfo").then((res) => {
+        this.$util.resDo(res, {
+          0: function () {
             const redirect = self.$route.query["redirect"] || "/admin";
             //进入后台
             if (isShowTip) {
-              this.$layer.popup({
+              self.$layer.popup({
                 props: {
                   content: "登录成功",
                 },
@@ -100,15 +101,17 @@ export default {
             } else {
               self.$router.push({ path: redirect });
             }
-          } else {
+          },
+          default: function () {
             this.$layer.popup({
               props: { content: "登录失败", type: "error" },
             });
-          }
-        })
-        .catch(() => {
-          this.$layer.popup({ props: { content: "登录失败", type: "error" } });
+          },
         });
+      });
+      // .catch(() => {
+      //   this.$layer.popup({ props: { content: "登录失败", type: "error" } });
+      // });
     },
     login() {
       this.$store

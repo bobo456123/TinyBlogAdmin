@@ -1,0 +1,20 @@
+<!--
+ * @Descripttion: 
+ * @version: 1.0.0
+ * @Author: IT飞牛
+ * @Date: 2021-09-09 22:48:11
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-09-09 22:51:36
+-->
+<template>
+  <div>标签</div>
+</template>
+
+<script>
+export default {
+  name: "tags",
+};
+</script>
+
+<style>
+</style>

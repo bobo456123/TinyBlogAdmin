@@ -4,11 +4,10 @@
  * @Author: IT飞牛
  * @Date: 2021-08-22 14:57:31
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-08-25 23:43:39
+ * @LastEditTime: 2021-09-09 20:51:22
  */
 import router from "@/router";
 import { getToken } from "@/utils/auth";
-import { getCurrentInfo } from "@/api/user";
 import store from '@/store';
 import { getPageTitle } from "@/utils";
 //白名单中的路由，免检直接通过;
@@ -27,7 +26,7 @@ router.beforeEach(function (to, from, next) {
             next();
             return;
         }
-        getCurrentInfo()
+        store.dispatch("user/getCurrentInfo")
             .then(() => {
                 next();
             }).catch(err => err);

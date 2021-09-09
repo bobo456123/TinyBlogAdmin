@@ -1,3 +1,11 @@
+/*
+ * @Descripttion: 
+ * @version: 1.0.0
+ * @Author: IT飞牛
+ * @Date: 2021-08-12 22:24:35
+ * @LastEditors: 
+ * @LastEditTime: 2021-09-09 21:52:29
+ */
 import Router from "vue-router";
 import Vue from "vue";
 
@@ -32,7 +40,7 @@ export default new Router({
             path: "/admin",
             name: "admin",
             component: () => import("@/views/admin"),
-            redirect: "/admin/dashboard",
+            redirect: "/admin/console",
             children: require("./admin.js")
         },
     ]

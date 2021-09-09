@@ -4,10 +4,11 @@
  * @Author: IT飞牛
  * @Date: 2021-08-17 22:14:50
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-08-22 20:53:16
+ * @LastEditTime: 2021-09-08 21:02:14
  */
 
 import { getToken, setToken } from "@/utils/auth";
+import { resDo } from "@/utils";
 import { login, getCurrentInfo } from "@/api/user";
 
 const user = {
@@ -36,12 +37,15 @@ const user = {
         getCurrentInfo({ commit }) {
             return new Promise((resolve, reject) => {
                 getCurrentInfo().then(res => {
-                    if (res.code == 0) {
-                        commit('setUserinfo', res.data)
-                        resolve(res.data);
-                    } else if (res.code > 0) {
-                        reject(res.message);
-                    }
+                    resDo(res, {
+                        0: function (res) {
+                            commit('setUserinfo', res.data)
+                            resolve(res);
+                        },
+                        default: function (res) {
+                            reject(res);
+                        }
+                    });
                 }).catch(error => {
                     reject(error)
                 })
@@ -51,15 +55,18 @@ const user = {
             return new Promise((r, j) => {
                 login(payload)
                     .then((res) => {
-                        if (res.code === 0) {
-                            commit("setToken", res.data.token);
-                            r();
-                            return;
-                        }
-                        j();
+                        resDo(res, {
+                            0: function (res) {
+                                commit("setToken", res.data.token);
+                                r(res);
+                            },
+                            default: function (res) {
+                                j(res);
+                            }
+                        });
                     })
-                    .catch(function () {
-                        j();
+                    .catch(function (error) {
+                        j(error);
                     });
             });
         }

@@ -238,7 +238,7 @@ export default {
     getPostList(param) {
       let self = this;
       let { index, pagesize } = param;
-      this.$router.push({ path: `/admin/post/list/${index}` });
+      this.$router.push({ params: {index:1} });
       postList({ pagesize: pagesize, index: index }).then((res) => {
         this.$util.resDo(res, {
           0: (res) => {
