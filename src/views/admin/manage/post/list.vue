@@ -3,7 +3,7 @@
     <div class="body container">
       <div class="typecho-page-title">
         <h2>
-          管理文章<a @click="$router.push({ path: '/admin/post/add' })">新增</a>
+          管理文章<a @click="$router.push({ path: '/admin/manage/post/add' })">新增</a>
         </h2>
       </div>
       <div class="row typecho-page-main" role="main">
@@ -131,13 +131,13 @@
                     <td>
                       <a
                         @click="
-                          $router.push({ path: `/admin/post/edit/${post.cid}` })
+                          $router.push({ path: `/admin/manage/post/edit/${post.cid}` })
                         "
                         >{{ post.title }}</a
                       >
                       <a
                         @click="
-                          $router.push({ path: `/admin/post/edit/${post.cid}` })
+                          $router.push({ path: `/admin/manage/post/edit/${post.cid}` })
                         "
                         :title="post.title"
                         ><i class="i-edit"></i
@@ -208,7 +208,7 @@
               <t-page
                 @click="getPostList"
                 :isOver="isOver"
-                :index="parseInt($route.params.index) || 1"
+                :index="$route.params.index"
                 :pagesize="5"
               ></t-page>
             </form>
@@ -238,7 +238,7 @@ export default {
     getPostList(param) {
       let self = this;
       let { index, pagesize } = param;
-      this.$router.push({ params: {index:1} });
+      this.$router.push({ params: { index: index || 1 } });
       postList({ pagesize: pagesize, index: index }).then((res) => {
         this.$util.resDo(res, {
           0: (res) => {

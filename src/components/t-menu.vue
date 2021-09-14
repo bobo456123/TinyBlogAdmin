@@ -4,18 +4,20 @@
  * @Author: IT飞牛
  * @Date: 2021-08-12 21:39:00
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-09-09 23:34:20
+ * @LastEditTime: 2021-09-14 23:24:34
 -->
 <template>
   <nav id="typecho-nav-list">
-    <ul
-      :class="{ root: isRoot, child: !isRoot }"
-      v-for="menu in menus"
-      :key="menu.name"
-    >
+    <ul class="root" v-for="menu in Menus" :key="menu.mid">
       <li class="parent">
         <a @click="go(menu)">{{ menu.meta.title }}</a>
       </li>
+
+      <ul class="child" v-if="menu.children && menu.children.length">
+        <li v-for="cMenu in menu.children" :key="cMenu.mid">
+          <a @click="go(cMenu, menu.path)">{{ cMenu.meta.title }}</a>
+        </li>
+      </ul>
     </ul>
   </nav>
 </template>
@@ -24,20 +26,28 @@
 export default {
   name: "t-menu",
   props: {
-    isRoot: {
-      type: Boolean,
-      default: true,
-    },
     menus: {
       type: Array,
       default: function () {
         return [];
       },
     },
+    basePath: {
+      type: String,
+      default: "/",
+    },
+  },
+  computed: {
+    Menus() {
+      return this.menus.filter((menu) => {
+        return !menu.meta.isHide;
+      });
+    },
   },
   methods: {
-    go(menu) {
-      this.$router.push({ path: menu.path });
+    go(menu, rootPath) {
+      let path = "/admin" + (rootPath ? "/" + rootPath : "") + "/" + menu.path;
+      this.$router.push({ path: path });
     },
   },
 };

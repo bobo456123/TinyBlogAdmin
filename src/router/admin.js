@@ -4,7 +4,7 @@
  * @Author: IT飞牛
  * @Date: 2021-08-12 22:35:42
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-09-09 23:32:47
+ * @LastEditTime: 2021-09-14 23:20:54
  */
 
 // 控制台
@@ -99,7 +99,7 @@ const manage = [
                 }
             },
             {
-                path: "edit",
+                path: "edit/:cid",
                 name: "post-edit",
                 component: () => import("@/views/admin/manage/post/edit"),
                 meta: {
@@ -190,7 +190,7 @@ const options = [
     {
         path: "general",
         name: "options-general",
-        // component: () => import("@/views/admin/general"),
+        component: () => import("@/views/admin/options/general"),
         meta: {
             title: "基本"
         },
@@ -198,7 +198,7 @@ const options = [
     {
         path: "discussion",
         name: "options-discussion",
-        // component: () => import("@/views/admin/discussion"),
+        component: () => import("@/views/admin/options/discussion"),
         meta: {
             title: "评论"
         },
@@ -206,7 +206,7 @@ const options = [
     {
         path: "reading",
         name: "options-reading",
-        // component: () => import("@/views/admin/reading"),
+        component: () => import("@/views/admin/options/reading"),
         meta: {
             title: "阅读"
         },
@@ -214,7 +214,7 @@ const options = [
     {
         path: "永久链接",
         name: "options-permalink",
-        // component: () => import("@/views/admin/permalink"),
+        component: () => import("@/views/admin/options/permalink"),
         meta: {
             title: "永久链接"
         },
@@ -262,4 +262,13 @@ module.exports = [
             title: "设置"
         }
     },
+    {
+        path: '/*',
+        name: 'error_404',
+        meta: {
+            isHide: true,
+            title: '404-页面不存在'
+        },
+        component: () => import("@/views/admin/placeholder"),
+    }
 ]
