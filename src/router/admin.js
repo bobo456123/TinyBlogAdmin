@@ -4,7 +4,7 @@
  * @Author: IT飞牛
  * @Date: 2021-08-12 22:35:42
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-09-14 23:20:54
+ * @LastEditTime: 2021-09-25 23:56:12
  */
 
 // 控制台
@@ -176,12 +176,47 @@ const manage = [
         }
     },
     {
-        path: "users",
-        name: "manage-users",
-        component: () => import("@/views/admin/manage/users"),
+        path: "user",
+        name: "manage-user",
+        component: () => import("@/views/admin/placeholder"),
+        redirect: "user/list",
         meta: {
             title: "用户"
-        }
+        },
+        children: [
+            {
+                path: "list/:index?",
+                name: "user-list",
+                component: () => import("@/views/admin/manage/user/list"),
+                meta: {
+                    title: "用户列表"
+                }
+            },
+            {
+                path: "listmember/:index?",
+                name: "member-list",
+                component: () => import("@/views/admin/manage/user/list"),
+                meta: {
+                    title: "用户列表"
+                }
+            },
+            {
+                path: "add",
+                name: "user-add",
+                component: () => import("@/views/admin/manage/user/add"),
+                meta: {
+                    title: "添加用户"
+                }
+            },
+            {
+                path: "edit/:cid",
+                name: "user-edit",
+                component: () => import("@/views/admin/manage/user/edit"),
+                meta: {
+                    title: "编辑用户"
+                }
+            }
+        ]
     },
 ];
 

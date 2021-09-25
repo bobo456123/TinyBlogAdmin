@@ -4,7 +4,7 @@
  * @Author: IT飞牛
  * @Date: 2021-08-17 22:33:40
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-08-22 15:36:46
+ * @LastEditTime: 2021-09-25 23:33:28
  */
 import request from "@/utils/request";
 
@@ -24,9 +24,10 @@ export function login(data) {
     });
 }
 //用户列表
-export function user() {
+export function list(param) {
     return request({
         url: "/api/user",
-        method: "get"
+        method: "get",
+        params: param
     });
 }
