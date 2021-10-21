@@ -4,7 +4,7 @@
  * @Author: IT飞牛
  * @Date: 2021-08-12 22:22:28
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-09-09 20:55:09
+ * @LastEditTime: 2021-10-21 22:40:23
 -->
 <template>
   <div class="typecho-login-wrap">
@@ -18,7 +18,7 @@
             placeholder="用户名"
             class="text-l w-100"
             autofocus=""
-            v-model="model.name"
+            v-model="model.username"
           />
         </p>
         <p>
@@ -33,9 +33,6 @@
         <p class="submit">
           <button type="submit" class="btn btn-l w-100 primary" @click="login">
             登录
-          </button>
-          <button type="submit" class="btn btn-l w-100 primary" @click="user">
-            用户
           </button>
           <input type="hidden" name="referer" value="" />
         </p>
@@ -67,7 +64,7 @@ export default {
   data() {
     return {
       model: {
-        name: "admin",
+        username: "admin",
         password: "123",
       },
       rememberPWD: this.$cookie.get("rememberPWD") == "1" ? 1 : 0,
@@ -85,7 +82,7 @@ export default {
       this.$store.dispatch("user/getCurrentInfo").then((res) => {
         this.$util.resDo(res, {
           0: function () {
-            const redirect = self.$route.query["redirect"] || "/admin";
+            const redirect = self.$route.query["redirect"] || "/admin/console/dashboard";
             //进入后台
             if (isShowTip) {
               self.$layer.popup({

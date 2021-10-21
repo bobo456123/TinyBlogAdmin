@@ -4,7 +4,7 @@
  * @Author: IT飞牛
  * @Date: 2021-08-12 22:35:42
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-09-25 23:56:12
+ * @LastEditTime: 2021-10-21 19:23:07
  */
 
 // 控制台
@@ -270,7 +270,7 @@ module.exports = [
     {
         path: "write",
         name: "write",
-        redirect: "console/post/add",
+        redirect: "manage/post/add",
         component: () => import("@/views/admin/placeholder"),
         children: write,
         meta: {

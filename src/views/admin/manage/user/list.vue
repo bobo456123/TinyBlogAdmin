@@ -4,13 +4,13 @@
  * @Author: IT飞牛
  * @Date: 2021-09-09 22:48:11
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-09-25 23:52:20
+ * @LastEditTime: 2021-09-26 20:37:34
 -->
 <template>
   <div class="main">
     <div class="body container">
       <div class="typecho-page-title">
-        <h2>管理用户<a href="http://127.0.0.2/admin/user.php">新增</a></h2>
+        <h2>管理用户<a @click="$router.push('/admin/manage/user/add')">新增</a></h2>
       </div>
       <div class="row typecho-page-main" role="main">
         <div class="col-mb-12 typecho-list">
