@@ -4,7 +4,7 @@
  * @Author: IT飞牛
  * @Date: 2021-08-22 22:39:04
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-09-06 21:58:55
+ * @LastEditTime: 2021-10-24 23:50:45
  */
 const settings = require("@/settings.js");
 const $layer = require("@/utils/layer");
@@ -94,4 +94,23 @@ export function dateFormat(date, fmt) {
     for (var k in o)
         if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     return fmt;
+}
+
+//验证表单字段
+const rules = new Map;
+rules.set("username", new RegExp("^\\w{5,12}$"));
+rules.set("password", new RegExp("^\\w{3,18}$"));
+rules.set("email", new RegExp(".+\\@\\w+\\.\\w+"));
+rules.set("url", new RegExp("^https?:\\/\\/"));
+export function validate(str, type) {
+    let rule = rules.get(type);
+    if (!str) {
+        // console.error(`数据为空`);
+        return false;
+    }
+    if (!rule) {
+        console.log(`${type}的验证规则不存在`);
+        return false;
+    }
+    return rule.test(str);
 }

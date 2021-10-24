@@ -4,7 +4,7 @@
  * @Author: IT飞牛
  * @Date: 2021-09-09 22:48:11
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-09-26 20:37:34
+ * @LastEditTime: 2021-10-24 23:17:50
 -->
 <template>
   <div class="main">
@@ -93,19 +93,19 @@
                             path: `/admin/manage/user/edit/${user.uid}`,
                           })
                         "
-                        >{{ user.name }}</a
+                        >{{ user.username }}</a
                       >
                       <a
                         :href="`${$settings.apiUrl}author/${user.uid}`"
-                        :title="`浏览 ${user.name}`"
+                        :title="`浏览 ${user.username}`"
                         target="_blank"
                         ><i class="i-exlink"></i
                       ></a>
                     </td>
                     <td>{{ user.screenName }}</td>
                     <td>
-                      <a :href="`mailto:${user.mail}`" target="_blank">{{
-                        user.mail
+                      <a :href="`mailto:${user.email}`" target="_blank">{{
+                        user.email
                       }}</a>
                     </td>
                     <td>{{ user.group }}</td>

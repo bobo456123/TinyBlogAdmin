@@ -4,7 +4,7 @@
  * @Author: IT飞牛
  * @Date: 2021-08-22 23:02:07
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-08-25 23:11:17
+ * @LastEditTime: 2021-10-24 23:56:31
  */
 import Vue from "vue";
 
@@ -64,6 +64,14 @@ export default {
         return layer;
     },
     popup: function (option) {
+        if (typeof option === "string") {
+            option = {
+                props: {
+                    content: option,
+                    type: arguments[1] ? arguments[1] : "success"
+                }
+            };
+        }
         let layer = this._create(modules.popup, option || {});
         return layer;
     }

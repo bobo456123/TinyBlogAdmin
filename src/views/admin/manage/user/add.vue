@@ -4,7 +4,7 @@
  * @Author: IT飞牛
  * @Date: 2021-09-09 22:48:11
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-09-26 20:46:41
+ * @LastEditTime: 2021-10-25 00:09:55
 -->
 <template>
   <div class="main">
@@ -23,10 +23,10 @@
                 <label class="typecho-label" for="name-0-1"> 用户名 *</label>
                 <input
                   id="name-0-1"
-                  name="name"
+                  name="username"
                   type="text"
                   class="text"
-                  v-model="model.name"
+                  v-model="model.username"
                 />
                 <p class="description">
                   此用户名将作为用户登录时所用的名称.<br />请不要与系统中现有的用户名重复.
@@ -40,10 +40,10 @@
                 >
                 <input
                   id="mail-0-2"
-                  name="mail"
+                  name="email"
                   type="text"
                   class="text"
-                  v-model="model.mail"
+                  v-model="model.email"
                 />
                 <p class="description">
                   电子邮箱地址将作为此用户的主要联系方式.<br />请不要与系统中现有的电子邮箱地址重复.
@@ -153,24 +153,68 @@
 </template>
 
 <script>
+import { create as addUser } from "@/api/user";
 export default {
   name: "userAdd",
   data() {
     return {
       model: {
-        name: "",
-        mail: "",
+        username: "",
+        email: "",
         screenName: "",
         password: "",
         confirm: "",
         url: "",
-        group: "",
+        group: "administrator",
       },
     };
   },
   methods: {
+    reset() {
+      this.model = {
+        username: "",
+        email: "",
+        screenName: "",
+        password: "",
+        confirm: "",
+        url: "",
+        group: "administrator",
+      };
+    },
     addUser() {
-      
+      if (!this.$util.validate(this.model.username, "username")) {
+        return this.$layer.popup("用户名错误", "error");
+      }
+      if (!this.$util.validate(this.model.email, "email")) {
+        return this.$layer.popup("电子邮箱地址错误", "error");
+      }
+      if (!this.$util.validate(this.model.password, "password")) {
+        return this.$layer.popup("用户密码错误", "error");
+      }
+      if (this.model.password != this.model.confirm) {
+        return this.$layer.popup("两次密码输入不同", "error");
+      }
+      if (this.model.url) {
+        if (!this.$util.validate(this.model.url, "url")) {
+          return this.$layer.popup("个人主页地址错误", "error");
+        }
+      }
+      addUser(this.model)
+        .then(() => {
+          this.$layer.popup({
+            props: {
+              content: "用户创建成功！",
+            },
+            on: {
+              close: () => {
+                this.reset();
+              },
+            },
+          });
+        })
+        .catch(() => {
+          this.$layer.popup("用户创建失败！", "error");
+        });
     },
   },
 };
