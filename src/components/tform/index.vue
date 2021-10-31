@@ -4,7 +4,7 @@
  * @Author: IT飞牛
  * @Date: 2021-10-25 21:04:49
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-10-30 21:15:07
+ * @LastEditTime: 2021-10-31 10:31:07
 -->
 <template>
   <div>
@@ -29,20 +29,25 @@ export default {
     this.$on("FormItem.init", function (formItem) {
       this.fields.push(formItem);
     });
-    this.$on("validate",this.validate);
+    this.$on("validate", this.validate);
   },
   methods: {
-    validate(cb) {
-      let tasks = this.fields.map(function (formItem) {
-        return formItem.validate();
-      });
-      Promise.all(tasks)
-        .then(function () {
-          cb(true);
-        })
-        .catch(function () {
-          cb(false);
+    validate() {
+      return this.fields.reduce(function (promise, formItem) {
+        return promise.then(function () {
+          return formItem.validate();
         });
+      }, Promise.resolve());
+
+      // chain
+      //   .then(function (res) {
+      //     console.log(1, res);
+      //     cb(true);
+      //   })
+      //   .catch(function (err) {
+      //     console.log(2, err);
+      //     cb(false);
+      //   });
     },
   },
 };

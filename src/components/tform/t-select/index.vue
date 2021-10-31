@@ -4,44 +4,35 @@
  * @Author: IT飞牛
  * @Date: 2021-10-25 21:12:55
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-10-31 11:23:09
+ * @LastEditTime: 2021-10-31 09:37:57
 -->
 <template>
-  <input
-    :type="type"
-    :value="value"
-    @input="onInput"
-    v-bind="$attrs"
-    class="text"
-  />
-
-  <!-- 自定义组件双绑：:value, @input -->
+  <select @change="onChange" v-bind="$attrs" :value="value" :val="value">
+    <slot></slot>
+  </select>
 </template>
 
 <script>
 import mixins2 from "@/mixin";
 export default {
-  name: "t-input",
+  name: "t-select",
   inheritAttrs: false,
   mixins: [mixins2],
   model: {
     //此处设置为默认值，可省略
     prop: "value",
-    event: "input",
+    event: "change",
   },
   props: {
-    type: {
-      type: String,
-      default: "text",
-    },
     value: {
       type: String,
       default: "",
     },
   },
   methods: {
-    onInput(e) {
-      this.$emit("input", e.target.value.trim());
+    onChange(e) {
+      console.log("select change");
+      this.$emit("change", e.target.value);
 
       // 触发校验
       this.dispatch("t-form-item", "validate");
