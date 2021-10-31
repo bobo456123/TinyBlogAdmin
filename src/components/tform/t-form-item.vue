@@ -4,7 +4,7 @@
  * @Author: IT飞牛
  * @Date: 2021-10-25 21:12:35
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-10-31 11:27:42
+ * @LastEditTime: 2021-10-31 16:27:39
 -->
 <template>
   <ul class="typecho-option">
@@ -71,15 +71,19 @@ export default {
 
         // 创建一个校验器实例
         const validator = new Validator({ [this.prop]: rules });
-        validator.validate({ [this.prop]: value }, (errors) => {
-          if (errors) {
-            this.error = errors[0].message;
-            j(this.error);
-          } else {
-            this.error = "";
-            r();
+        validator.validate(
+          { [this.prop]: value },
+          { first: true },  //只有一个验证没通过，后面不再继续验证
+          (errors) => {
+            if (errors) {
+              this.error = errors[0].message;
+              j(this.error);
+            } else {
+              this.error = "";
+              r();
+            }
           }
-        });
+        );
       });
     },
   },

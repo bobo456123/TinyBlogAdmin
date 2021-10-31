@@ -4,7 +4,7 @@
  * @Author: IT飞牛
  * @Date: 2021-10-25 21:12:55
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-10-31 11:23:09
+ * @LastEditTime: 2021-10-31 23:43:49
 -->
 <template>
   <input
@@ -20,6 +20,7 @@
 
 <script>
 import mixins2 from "@/mixin";
+
 export default {
   name: "t-input",
   inheritAttrs: false,
@@ -40,9 +41,8 @@ export default {
     },
   },
   methods: {
-    onInput(e) {
+    onInput: function (e) {
       this.$emit("input", e.target.value.trim());
-
       // 触发校验
       this.dispatch("t-form-item", "validate");
     },

@@ -4,7 +4,7 @@
  * @Author: IT飞牛
  * @Date: 2021-08-22 22:39:04
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-10-24 23:50:45
+ * @LastEditTime: 2021-10-31 23:49:31
  */
 const settings = require("@/settings.js");
 const $layer = require("@/utils/layer");
@@ -94,6 +94,21 @@ export function dateFormat(date, fmt) {
     for (var k in o)
         if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     return fmt;
+}
+
+export function debounce(fn, time) {
+    let timer = null;
+    let that = this;
+    return function () {
+        if (timer) {
+            return;
+        }
+        let params = arguments;
+        timer = window.setTimeout(function () {
+            timer = null;
+            fn.apply(that, params);
+        }, time);
+    }
 }
 
 //验证表单字段

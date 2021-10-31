@@ -4,11 +4,11 @@
  * @Author: IT飞牛
  * @Date: 2021-08-17 22:33:40
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-10-24 23:20:23
+ * @LastEditTime: 2021-10-31 15:15:21
  */
 import request from "@/utils/request";
 
-//检验口令
+//获取当前登录用户信息
 export function getCurrentInfo() {
     return request({
         url: "/api/getCurrentInfo",
@@ -37,5 +37,15 @@ export function create(param) {
         url: "/api/user",
         method: "post",
         data: param
+    });
+}
+//获取用户信息
+export function getUserByUsername(username) {
+    return request({
+        url: "/api/user/getUserByUsername",
+        method: "get",
+        params: {
+            username
+        }
     });
 }

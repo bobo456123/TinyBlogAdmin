@@ -4,7 +4,7 @@
  * @Author: IT飞牛
  * @Date: 2021-09-09 22:48:11
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-10-31 11:41:04
+ * @LastEditTime: 2021-10-31 23:46:42
 -->
 <template>
   <div class="main">
@@ -104,13 +104,13 @@
 </template>
 
 <script>
-import { create as addUser } from "@/api/user";
-
+import { create as addUser, getUserByUsername } from "@/api/user";
 import tForm from "@/components/tform";
 import tFormItem from "@/components/tform/t-form-item";
 import tInput from "@/components/tform/t-input";
 import tSelect from "@/components/tform/t-select";
 import tOption from "@/components/tform/t-select/t-option";
+
 export default {
   name: "userAdd",
   components: {
@@ -137,6 +137,28 @@ export default {
           {
             message: '必须是5到12位 "_、数字或字母"',
             pattern: new RegExp("^\\w{5,12}$"),
+          },
+          {
+            message: "当前用户已存在",
+            asyncValidator: this.$util.debounce((rule, value) => {
+              //返回的Promise->reject必须要有参数
+              return new Promise((r, j) => {
+                getUserByUsername(value)
+                  .then((res) => {
+                    this.$util.resDo(res, {
+                      0: function () {
+                        j(true);
+                      },
+                      default: function () {
+                        r(true);
+                      },
+                    });
+                  })
+                  .catch(() => {
+                    r(true);
+                  });
+              });
+            }, 500),
           },
         ],
         email: [
@@ -175,6 +197,7 @@ export default {
   },
   methods: {
     reset() {
+      getUserByUsername;
       this.model = {
         username: "",
         email: "",
