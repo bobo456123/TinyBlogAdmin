@@ -4,7 +4,7 @@
  * @Author: IT飞牛
  * @Date: 2021-09-09 22:48:11
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-10-31 10:33:59
+ * @LastEditTime: 2021-11-01 00:13:42
 -->
 <template>
   <div class="main">
@@ -104,8 +104,7 @@
 </template>
 
 <script>
-import { create as addUser } from "@/api/user";
-
+import { create as addUser, getUserByUsername } from "@/api/user";
 import tForm from "@/components/tform";
 import tFormItem from "@/components/tform/t-form-item";
 import tInput from "@/components/tform/t-input";
@@ -132,13 +131,72 @@ export default {
         group: "administrator",
       },
       rules: {
-        username: [{ required: true, message: "必须输入用户名" }],
-        email: [{ required: true, message: "请输入邮箱", trigger: "input" }],
+        username: [
+          { required: true, message: "必须输入用户名" },
+          {
+            message: '必须是5到12位 "_、数字或字母"',
+            pattern: new RegExp("^\\w{5,12}$"),
+          },
+          {
+            message: "当前用户已存在",
+            asyncValidator: this.$util.debounce((rule, value) => {
+              //返回的Promise->reject必须要有参数
+              return new Promise((r, j) => {
+                getUserByUsername(value)
+                  .then((res) => {
+                    this.$util.resDo(res, {
+                      0: function () {
+                        j(true);
+                      },
+                      default: function () {
+                        r(true);
+                      },
+                    });
+                  })
+                  .catch(() => {
+                    r(true);
+                  });
+              });
+            }, 500),
+          },
+        ],
+        email: [
+          {
+            required: true,
+            message: "邮箱必填",
+          },
+          {
+            message: "邮箱格式不正确；",
+            pattern: new RegExp(".+\\@\\w+\\.\\w+"),
+          },
+        ],
+        screenName: [{ required: true, message: "必须输入用户昵称" }],
+        password: [
+          { required: true, message: "必须输入密码" },
+          {
+            message: '必须是3到18位 "_、数字或字母"',
+            pattern: new RegExp("^\\w{3,18}$"),
+          },
+        ],
+        confirm: [
+          { type: "string", required: true, message: "必须输入密码确认" },
+          {
+            message: "两次密码输入不一致",
+            validator: (rule, value) => value === this.model.password,
+          },
+        ],
+        url: [
+          {
+            message: "地址格式错误",
+            pattern: new RegExp("^https?:\\/\\/"),
+          },
+        ],
       },
     };
   },
   methods: {
     reset() {
+      getUserByUsername;
       this.model = {
         username: "",
         email: "",
@@ -153,8 +211,22 @@ export default {
       this.$refs.tform
         .validate()
         .then(() => {
-          this.$layer.popup("校验成功！");
-          console.log(JSON.stringify(this.model,"",1));
+          addUser(this.model)
+            .then(() => {
+              this.$layer.popup({
+                props: {
+                  content: "用户创建成功！",
+                },
+                on: {
+                  close: () => {
+                    this.$router.push("/admin/manage/user/list");
+                  },
+                },
+              });
+            })
+            .catch(() => {
+              this.$layer.popup("用户创建失败！", "error");
+            });
         })
         .catch((error) => {
           this.$layer.popup(error, "error");

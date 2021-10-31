@@ -4,17 +4,23 @@
  * @Author: IT飞牛
  * @Date: 2021-10-25 21:12:55
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-10-31 09:10:55
+ * @LastEditTime: 2021-10-31 23:43:49
 -->
 <template>
-<input :type="type" :value="value" @input="onInput" v-bind="$attrs" class="text" />
-   
+  <input
+    :type="type"
+    :value="value"
+    @input="onInput"
+    v-bind="$attrs"
+    class="text"
+  />
 
-    <!-- 自定义组件双绑：:value, @input -->
+  <!-- 自定义组件双绑：:value, @input -->
 </template>
 
 <script>
 import mixins2 from "@/mixin";
+
 export default {
   name: "t-input",
   inheritAttrs: false,
@@ -35,9 +41,8 @@ export default {
     },
   },
   methods: {
-    onInput(e) {
-      this.$emit("input", e.target.value);
-
+    onInput: function (e) {
+      this.$emit("input", e.target.value.trim());
       // 触发校验
       this.dispatch("t-form-item", "validate");
     },
