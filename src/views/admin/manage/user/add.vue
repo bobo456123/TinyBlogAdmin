@@ -4,7 +4,7 @@
  * @Author: IT飞牛
  * @Date: 2021-09-09 22:48:11
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-10-31 09:12:48
+ * @LastEditTime: 2021-10-31 10:33:59
 -->
 <template>
   <div class="main">
@@ -85,10 +85,12 @@
                     >参考这里</a
                   >."
             >
-              <t-input
-                v-model="model.group"
-                placeholder="请输入用户组"
-              ></t-input>
+              <t-select v-model="model.group">
+                <t-option label="关注者" value="subscriber"></t-option>
+                <t-option label="贡献者" value="contributor"></t-option>
+                <t-option label="编辑" value="editor"></t-option>
+                <t-option label="管理员" value="administrator"></t-option>
+              </t-select>
             </t-form-item>
 
             <t-form-item>
@@ -107,12 +109,16 @@ import { create as addUser } from "@/api/user";
 import tForm from "@/components/tform";
 import tFormItem from "@/components/tform/t-form-item";
 import tInput from "@/components/tform/t-input";
+import tSelect from "@/components/tform/t-select";
+import tOption from "@/components/tform/t-select/t-option";
 export default {
   name: "userAdd",
   components: {
     "t-form": tForm,
     "t-form-item": tFormItem,
     "t-input": tInput,
+    "t-select": tSelect,
+    "t-option": tOption,
   },
   data() {
     return {
@@ -132,17 +138,6 @@ export default {
     };
   },
   methods: {
-    submit() {
-      this.$refs.tform.validate((isValid) => {
-        if (isValid) {
-          // console.log(1);
-          this.$layer.popup("校验成功；");
-        } else {
-          // console.log(2);
-          this.$layer.popup("电子邮箱地址错误", "error");
-        }
-      });
-    },
     reset() {
       this.model = {
         username: "",
@@ -155,39 +150,32 @@ export default {
       };
     },
     addUser() {
-      if (!this.$util.validate(this.model.username, "username")) {
-        return this.$layer.popup("用户名错误", "error");
-      }
-      if (!this.$util.validate(this.model.email, "email")) {
-        return this.$layer.popup("电子邮箱地址错误", "error");
-      }
-      if (!this.$util.validate(this.model.password, "password")) {
-        return this.$layer.popup("用户密码错误", "error");
-      }
-      if (this.model.password != this.model.confirm) {
-        return this.$layer.popup("两次密码输入不同", "error");
-      }
-      if (this.model.url) {
-        if (!this.$util.validate(this.model.url, "url")) {
-          return this.$layer.popup("个人主页地址错误", "error");
-        }
-      }
-      addUser(this.model)
+      this.$refs.tform
+        .validate()
         .then(() => {
-          this.$layer.popup({
-            props: {
-              content: "用户创建成功！",
-            },
-            on: {
-              close: () => {
-                this.reset();
-              },
-            },
-          });
+          this.$layer.popup("校验成功！");
+          console.log(JSON.stringify(this.model,"",1));
         })
-        .catch(() => {
-          this.$layer.popup("用户创建失败！", "error");
+        .catch((error) => {
+          this.$layer.popup(error, "error");
         });
+      addUser;
+      // addUser(this.model)
+      //   .then(() => {
+      //     this.$layer.popup({
+      //       props: {
+      //         content: "用户创建成功！",
+      //       },
+      //       on: {
+      //         close: () => {
+      //           this.reset();
+      //         },
+      //       },
+      //     });
+      //   })
+      //   .catch(() => {
+      //     this.$layer.popup("用户创建失败！", "error");
+      //   });
     },
   },
 };

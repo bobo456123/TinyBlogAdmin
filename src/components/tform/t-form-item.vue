@@ -4,7 +4,7 @@
  * @Author: IT飞牛
  * @Date: 2021-10-25 21:12:35
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-10-31 09:15:18
+ * @LastEditTime: 2021-10-31 10:29:16
 -->
 <template>
   <ul id="typecho-option-item-name-0" class="typecho-option">
@@ -68,12 +68,18 @@ export default {
       // 创建一个校验器实例
       const validator = new Validator({ [this.prop]: rules });
       // 校验, 返回Promise
-      return validator.validate({ [this.prop]: value }, (errors) => {
-        if (errors) {
-          this.error = errors[0].message;
-        } else {
-          this.error = "";
-        }
+      return new Promise((r, j) => {
+        validator.validate({ [this.prop]: value }, (errors) => {
+          if (errors) {
+            console.log("fail: " + this.prop);
+            this.error = errors[0].message;
+            j(this.error);
+          } else {
+            console.log("success: " + this.prop);
+            this.error = "";
+            r();
+          }
+        });
       });
     },
   },
