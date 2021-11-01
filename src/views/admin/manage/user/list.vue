@@ -4,50 +4,51 @@
  * @Author: IT飞牛
  * @Date: 2021-09-09 22:48:11
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-10-24 23:17:50
+ * @LastEditTime: 2021-11-01 22:40:45
 -->
 <template>
   <div class="main">
     <div class="body container">
       <div class="typecho-page-title">
-        <h2>管理用户<a @click="$router.push('/admin/manage/user/add')">新增</a></h2>
+        <h2>
+          管理用户<a @click="$router.push('/admin/manage/user/add')">新增</a>
+        </h2>
       </div>
       <div class="row typecho-page-main" role="main">
         <div class="col-mb-12 typecho-list">
           <div class="typecho-list-operate clearfix">
-            <form method="get">
-              <div class="operate">
-                <label
-                  ><i class="sr-only">全选</i
-                  ><input type="checkbox" class="typecho-table-select-all"
-                /></label>
-                <div class="btn-group btn-drop">
-                  <button class="btn dropdown-toggle btn-s" type="button">
-                    <i class="sr-only">操作</i>选中项
-                    <i class="i-caret-down"></i>
-                  </button>
-                  <ul class="dropdown-menu">
-                    <li>
-                      <a
-                        lang="你确认要删除这些用户吗?"
-                        href="http://127.0.0.2/index.php/action/users-edit?do=delete&amp;_=6fb61ec261b6d497814c4c48a5e127b3"
-                        >删除</a
-                      >
-                    </li>
-                  </ul>
-                </div>
+            <div class="operate">
+              <label
+                ><i class="sr-only">全选</i
+                ><input type="checkbox" class="typecho-table-select-all"
+              /></label>
+              <div class="btn-group btn-drop">
+                <button class="btn dropdown-toggle btn-s" type="button">
+                  <i class="sr-only">操作</i>选中项
+                  <i class="i-caret-down"></i>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a
+                      lang="你确认要删除这些用户吗?"
+                      href="http://127.0.0.2/index.php/action/users-edit?do=delete&amp;_=6fb61ec261b6d497814c4c48a5e127b3"
+                      >删除</a
+                    >
+                  </li>
+                </ul>
               </div>
-              <div class="search" role="search">
-                <input
-                  type="text"
-                  class="text-s"
-                  placeholder="请输入关键字"
-                  value=""
-                  name="keywords"
-                />
-                <button type="submit" class="btn btn-s">筛选</button>
-              </div>
-            </form>
+            </div>
+            <div class="search" role="search">
+              <input
+                type="text"
+                class="text-s"
+                placeholder="请输入关键字"
+                v-model="keyword"
+              />
+              <button type="submit" class="btn btn-s" @click="getUserList">
+                筛选
+              </button>
+            </div>
           </div>
           <!-- end .typecho-list-operate -->
 
@@ -146,7 +147,6 @@
                 @click="getUserList"
                 :isOver="isOver"
                 :index="$route.params.index"
-                :pagesize="5"
               ></t-page>
             </form>
           </div>
@@ -168,19 +168,23 @@ export default {
     return {
       userList: [],
       isOver: false,
+      keyword: null,
     };
   },
   components: { TPage },
   methods: {
-    getUserList(param) {
-      let self = this;
-      let { index, pagesize } = param;
+    getUserList: function (param) {
+      let { index = 1, pagesize = this.$settings.pagesize } = param;
       this.$router.push({ params: { index: index || 1 } });
-      userList({ pagesize: pagesize, index: index }).then((res) => {
+      userList({
+        pagesize: pagesize,
+        index: index,
+        keyword: this.keyword,
+      }).then((res) => {
         this.$util.resDo(res, {
           0: (res) => {
-            self.userList = res.data.data;
-            self.isOver = self.userList.length < pagesize;
+            this.userList = res.data.data;
+            this.isOver = this.userList.length < pagesize;
           },
         });
       });
