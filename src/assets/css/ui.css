@@ -130,3 +130,32 @@
     opacity: 0.5;
     cursor: not-allowed;
 }
+
+/* ----分页-加载更多---- */
+.typecho-pager-more{text-align: center;padding: 5px 0;}
+.typecho-pager-more .page-more-getmore{cursor: pointer; color: #999;}
+.typecho-pager-more .page-more-getmore:hover{text-decoration: underline; color: #467B96;}
+.typecho-pager-more .page-more-nodata{color: #999;}
+.typecho-pager-more .page-more-loading{color: #999;}
+
+/* ----loading---- */
+.shadow_dot {
+    display: inline-block; min-width: 2px; min-height: 2px;
+    box-shadow: 2px 0 currentColor, 6px 0 currentColor, 10px 0 currentColor;
+    -webkit-animation: shadow_dot 2s infinite step-start both;
+    animation: shadow_dot 2s infinite step-start both;
+}
+.shadow_dot:before { content: '...'; } /* IE8 */
+.shadow_dot::before { content: ''; }
+:root .shadow_dot { margin-right: 8px; } /* IE9+,FF,CH,OP,SF */
+
+@-webkit-keyframes shadow_dot {
+    25% { box-shadow: none; }
+    50% { box-shadow: 2px 0 currentColor; }
+    75% { box-shadow: 2px 0 currentColor, 6px 0 currentColor; }
+}
+@keyframes shadow_dot {
+    25% { box-shadow: none; }
+    50% { box-shadow: 2px 0 currentColor; }
+    75% { box-shadow: 2px 0 currentColor, 6px 0 currentColor; }
+}

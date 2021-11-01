@@ -4,7 +4,7 @@
  * @Author: IT飞牛
  * @Date: 2021-09-09 22:48:11
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-11-01 22:40:45
+ * @LastEditTime: 2021-11-01 23:36:38
 -->
 <template>
   <div class="main">
@@ -112,45 +112,23 @@
                     <td>{{ user.group }}</td>
                   </tr>
                 </tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="6">
+                      <t-page
+                        @click="getUserList"
+                        :isOver="isOver"
+                        :index="$route.params.index"
+                        :loading="loading"
+                      ></t-page>
+                    </td>
+                  </tr>
+                </tfoot>
               </table>
               <!-- end .typecho-list-table -->
             </div>
             <!-- end .typecho-table-wrap -->
           </form>
-          <!-- end .operate-form -->
-
-          <div class="typecho-list-operate clearfix">
-            <form method="get">
-              <div class="operate">
-                <label
-                  ><i class="sr-only">全选</i
-                  ><input type="checkbox" class="typecho-table-select-all"
-                /></label>
-                <div class="btn-group btn-drop">
-                  <button class="btn dropdown-toggle btn-s" type="button">
-                    <i class="sr-only">操作</i>选中项
-                    <i class="i-caret-down"></i>
-                  </button>
-                  <ul class="dropdown-menu">
-                    <li>
-                      <a
-                        lang="你确认要删除这些文章吗?"
-                        href="http://127.0.0.2/index.php/action/contents-post-edit?do=delete&amp;_=4cc2fb6a3366fc01f7a89738f8aa32cc"
-                        >删除</a
-                      >
-                    </li>
-                  </ul>
-                </div>
-              </div>
-
-              <t-page
-                @click="getUserList"
-                :isOver="isOver"
-                :index="$route.params.index"
-              ></t-page>
-            </form>
-          </div>
-          <!-- end .typecho-list-operate -->
         </div>
         <!-- end .typecho-list -->
       </div>
@@ -169,24 +147,26 @@ export default {
       userList: [],
       isOver: false,
       keyword: null,
+      loading: true,
     };
   },
   components: { TPage },
   methods: {
     getUserList: function (param) {
       let { index = 1, pagesize = this.$settings.pagesize } = param;
-      this.$router.push({ params: { index: index || 1 } });
+      this.loading = true;
       userList({
         pagesize: pagesize,
         index: index,
         keyword: this.keyword,
       }).then((res) => {
-        this.$util.resDo(res, {
-          0: (res) => {
-            this.userList = res.data.data;
-            this.isOver = this.userList.length < pagesize;
-          },
-        });
+          this.loading = false;
+          this.$util.resDo(res, {
+            0: (res) => {
+              this.userList = this.userList.concat(res.data.data);
+              this.isOver = res.data.data.length < pagesize;
+            },
+          });
       });
     },
   },

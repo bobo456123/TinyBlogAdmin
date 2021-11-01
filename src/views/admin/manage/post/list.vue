@@ -3,7 +3,9 @@
     <div class="body container">
       <div class="typecho-page-title">
         <h2>
-          管理文章<a @click="$router.push({ path: '/admin/manage/post/add' })">新增</a>
+          管理文章<a @click="$router.push({ path: '/admin/manage/post/add' })"
+            >新增</a
+          >
         </h2>
       </div>
       <div class="row typecho-page-main" role="main">
@@ -131,13 +133,17 @@
                     <td>
                       <a
                         @click="
-                          $router.push({ path: `/admin/manage/post/edit/${post.cid}` })
+                          $router.push({
+                            path: `/admin/manage/post/edit/${post.cid}`,
+                          })
                         "
                         >{{ post.title }}</a
                       >
                       <a
                         @click="
-                          $router.push({ path: `/admin/manage/post/edit/${post.cid}` })
+                          $router.push({
+                            path: `/admin/manage/post/edit/${post.cid}`,
+                          })
                         "
                         :title="post.title"
                         ><i class="i-edit"></i
@@ -176,44 +182,22 @@
                     </td>
                   </tr>
                 </tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="6">
+                      <t-page
+                        @click="getPostList"
+                        :isOver="isOver"
+                        :index="$route.params.index"
+                        :loading="loading"
+                      ></t-page>
+                    </td>
+                  </tr>
+                </tfoot>
               </table>
             </div>
           </form>
           <!-- end .operate-form -->
-
-          <div class="typecho-list-operate clearfix">
-            <form method="get">
-              <div class="operate">
-                <label
-                  ><i class="sr-only">全选</i
-                  ><input type="checkbox" class="typecho-table-select-all"
-                /></label>
-                <div class="btn-group btn-drop">
-                  <button class="btn dropdown-toggle btn-s" type="button">
-                    <i class="sr-only">操作</i>选中项
-                    <i class="i-caret-down"></i>
-                  </button>
-                  <ul class="dropdown-menu">
-                    <li>
-                      <a
-                        lang="你确认要删除这些文章吗?"
-                        href="http://127.0.0.2/index.php/action/contents-post-edit?do=delete&amp;_=4cc2fb6a3366fc01f7a89738f8aa32cc"
-                        >删除</a
-                      >
-                    </li>
-                  </ul>
-                </div>
-              </div>
-
-              <t-page
-                @click="getPostList"
-                :isOver="isOver"
-                :index="$route.params.index"
-                :pagesize="5"
-              ></t-page>
-            </form>
-          </div>
-          <!-- end .typecho-list-operate -->
         </div>
         <!-- end .typecho-list -->
       </div>
@@ -231,19 +215,20 @@ export default {
     return {
       postList: [],
       isOver: false,
+      loading: true,
     };
   },
   components: { TPage },
   methods: {
-    getPostList(param) {
-      let self = this;
-      let { index, pagesize } = param;
-      this.$router.push({ params: { index: index || 1 } });
+    getPostList:function(param) {
+      let { index = 1, pagesize = this.$settings.pagesize } = param;
+      this.loading = true;
       postList({ pagesize: pagesize, index: index }).then((res) => {
+        this.loading = false;
         this.$util.resDo(res, {
           0: (res) => {
-            self.postList = res.data.data;
-            self.isOver = self.postList.length < pagesize;
+            this.postList = this.postList.concat(res.data.data);
+            this.isOver = res.data.data.length < pagesize;
           },
         });
       });

@@ -4,7 +4,7 @@
  * @Author: IT飞牛
  * @Date: 2021-08-12 22:23:07
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-09-09 23:34:07
+ * @LastEditTime: 2021-11-01 22:58:23
 -->
 <template>
   <div>
@@ -66,7 +66,7 @@ export default {
     TMenu,
   },
   created: function () {
-    console.log("create");
+    console.log("admin create");
     console.log(this.$store.state);
     console.log(this.$store.state.admin.name);
   },
