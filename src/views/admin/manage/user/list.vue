@@ -139,7 +139,7 @@
 
 <script>
 import { list as userList } from "@/api/user";
-import TPage from "@/components/t-page";
+// import TPage from "@/components/t-page";
 export default {
   name: "users",
   data() {
@@ -150,7 +150,7 @@ export default {
       loading: true,
     };
   },
-  components: { TPage },
+  // components: { TPage },
   methods: {
     getUserList: function (param) {
       let { index = 1, pagesize = this.$settings.pagesize } = param;

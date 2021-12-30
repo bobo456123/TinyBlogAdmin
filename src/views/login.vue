@@ -58,7 +58,6 @@
 </template>
 
 <script>
-import { user } from "@/api/user";
 export default {
   name: "login",
   data() {
@@ -122,10 +121,7 @@ export default {
     },
     setRemPWD() {
       this.$cookie.set("rememberPWD", this.rememberPWD ? 1 : 0);
-    },
-    user() {
-      user();
-    },
+    }
   },
 };
 </script>

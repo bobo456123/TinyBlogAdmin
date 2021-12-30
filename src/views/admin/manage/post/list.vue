@@ -208,7 +208,7 @@
 
 <script>
 import { list as postList } from "@/api/post";
-import TPage from "@/components/t-page";
+// import TPage from "@/components/t-page";
 export default {
   name: "postList",
   data() {
@@ -218,7 +218,7 @@ export default {
       loading: true,
     };
   },
-  components: { TPage },
+  // components: { TPage },
   methods: {
     getPostList:function(param) {
       let { index = 1, pagesize = this.$settings.pagesize } = param;

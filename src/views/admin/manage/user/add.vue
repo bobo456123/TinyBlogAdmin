@@ -105,20 +105,21 @@
 
 <script>
 import { create as addUser, getUserByUsername } from "@/api/user";
-import tForm from "@/components/tform";
-import tFormItem from "@/components/tform/t-form-item";
-import tInput from "@/components/tform/t-input";
-import tSelect from "@/components/tform/t-select";
-import tOption from "@/components/tform/t-select/t-option";
+// import tForm from "@/components/tform";
+// import tFormItem from "@/components/tform/t-form-item";
+// import tInput from "@/components/tform/t-input";
+// import tSelect from "@/components/tform/t-select";
+// import tOption from "@/components/tform/t-select/t-option";
+
 export default {
   name: "userAdd",
-  components: {
-    "t-form": tForm,
-    "t-form-item": tFormItem,
-    "t-input": tInput,
-    "t-select": tSelect,
-    "t-option": tOption,
-  },
+  // components: {
+  //   "t-form": tForm,
+  //   "t-form-item": tFormItem,
+  //   "t-input": tInput,
+  //   "t-select": tSelect,
+  //   "t-option": tOption,
+  // },
   data() {
     return {
       model: {

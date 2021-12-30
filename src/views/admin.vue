@@ -55,16 +55,16 @@
 </template>
 
 <script>
-import TMenu from "@/components/t-menu";
+// import TMenu from "@/components/t-menu";
 import adminMenu from "@/router/admin";
 export default {
   name: "admin",
   data() {
     return { adminMenu };
   },
-  components: {
-    TMenu,
-  },
+  // components: {
+  //   TMenu,
+  // },
   created: function () {
     console.log("admin create");
     console.log(this.$store.state);
