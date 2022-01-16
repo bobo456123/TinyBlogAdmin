@@ -111,6 +111,25 @@ export function debounce(fn, time) {
     }
 }
 
+export function debounceAsync(fn, time = 500) {
+    let timer = null;
+    let that = this;
+    return function () {
+        if (timer) {
+            return Promise.reject(false);
+        }
+        let params = arguments;
+        return new Promise(function (r, j) {
+            timer = window.setTimeout(function () {
+                timer = null;
+                fn.apply(that, params)
+                    .then(data => r(data))
+                    .catch(error => j(error));
+            }, time);
+        });
+    }
+}
+
 //验证表单字段
 const rules = new Map;
 rules.set("username", new RegExp("^\\w{5,12}$"));

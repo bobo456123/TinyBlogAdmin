@@ -140,7 +140,7 @@ export default {
           },
           {
             message: "当前用户已存在",
-            asyncValidator: this.$util.debounce((rule, value) => {
+            asyncValidator: this.$util.debounceAsync((rule, value) => {
               //返回的Promise->reject必须要有参数
               return new Promise((r, j) => {
                 getUserByUsername(value)
@@ -158,7 +158,7 @@ export default {
                     r(true);
                   });
               });
-            }, 500),
+            }, 1000),
           },
         ],
         email: [
