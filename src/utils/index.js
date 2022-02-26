@@ -101,11 +101,11 @@ export function debounce(fn, time) {
     let that = this;
     return function () {
         if (timer) {
-            return;
+            window.clearTimeout(timer);
         }
         let params = arguments;
         timer = window.setTimeout(function () {
-            timer = null;
+            window.clearTimeout(timer);
             fn.apply(that, params);
         }, time);
     }
@@ -116,12 +116,12 @@ export function debounceAsync(fn, time = 500) {
     let that = this;
     return function () {
         if (timer) {
-            return Promise.reject(false);
+            window.clearTimeout(timer);
         }
         let params = arguments;
         return new Promise(function (r, j) {
             timer = window.setTimeout(function () {
-                timer = null;
+                window.clearTimeout(timer);
                 fn.apply(that, params)
                     .then(data => r(data))
                     .catch(error => j(error));
