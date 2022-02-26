@@ -10,6 +10,7 @@
   <input
     :type="type"
     :value="value"
+    autocomplete="off"
     @input="onInput"
     v-bind="$attrs"
     class="text"

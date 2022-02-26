@@ -18,22 +18,29 @@
         <div class="col-mb-12 typecho-list">
           <div class="typecho-list-operate clearfix">
             <div class="operate">
-              <label
-                ><i class="sr-only">全选</i
-                ><input type="checkbox" class="typecho-table-select-all"
-              /></label>
+              <label @click="selectAll">
+                <i class="sr-only">全选</i>
+                <input
+                  type="checkbox"
+                  class="typecho-table-select-all"
+                  :checked="isAll?'checked':''"
+                />
+              </label>
               <div class="btn-group btn-drop">
-                <button class="btn dropdown-toggle btn-s" type="button">
+                <button
+                  class="btn dropdown-toggle btn-s"
+                  type="button"
+                  @click="isShow.patchDropdown = !isShow.patchDropdown"
+                >
                   <i class="sr-only">操作</i>选中项
                   <i class="i-caret-down"></i>
                 </button>
-                <ul class="dropdown-menu">
-                  <li>
-                    <a
-                      lang="你确认要删除这些用户吗?"
-                      href="http://127.0.0.2/index.php/action/users-edit?do=delete&amp;_=6fb61ec261b6d497814c4c48a5e127b3"
-                      >删除</a
-                    >
+                <ul
+                  class="dropdown-menu"
+                  :style="{ display: isShow.patchDropdown ? 'block' : 'none' }"
+                >
+                  <li @click="removeUsers">
+                    <a href="javascript:void(0)">删除</a>
                   </li>
                 </ul>
               </div>
@@ -80,7 +87,7 @@
                     :key="user.uid"
                   >
                     <td>
-                      <input type="checkbox" :value="user.uid" name="uid[]" />
+                      <input type="checkbox" v-model="user.isCheck" />
                     </td>
                     <td>
                       <a href="#" class="balloon-button left size-20">{{
@@ -139,7 +146,6 @@
 
 <script>
 import { list as userList } from "@/api/user";
-// import TPage from "@/components/t-page";
 export default {
   name: "users",
   data() {
@@ -148,10 +154,40 @@ export default {
       isOver: false,
       keyword: null,
       loading: true,
+      isShow: {
+        patchDropdown: false,
+      },
     };
   },
-  // components: { TPage },
+  computed: {
+    selectedItemId() {
+      return this.userList
+        .filter((item) => item.isCheck)
+        .map((item) => item.uid);
+    },
+    isAll() {
+      return this.selectedItemId.length == this.userList.length;
+    },
+  },
   methods: {
+    selectAll() {
+      let flag=this.isAll;
+      this.userList.forEach((item) => (item.isCheck = !flag));
+    },
+    removeUsers() {
+      let ids = this.selectedItemId.join(",");
+      console.log(ids);
+      // this.$layer.confirm({
+      //   props: {
+      //     content: "确定删除用户?",
+      //   },
+      //   on: {
+      //     sure: () => {
+
+      //     },
+      //   },
+      // });
+    },
     getUserList: function (param) {
       let { index = 1, pagesize = this.$settings.pagesize } = param;
       this.loading = true;
@@ -160,13 +196,16 @@ export default {
         index: index,
         keyword: this.keyword,
       }).then((res) => {
-          this.loading = false;
-          this.$util.resDo(res, {
-            0: (res) => {
-              this.userList = this.userList.concat(res.data.data);
-              this.isOver = res.data.data.length < pagesize;
-            },
-          });
+        this.loading = false;
+        this.$util.resDo(res, {
+          0: (res) => {
+            res.data.data.forEach((element) => {
+              element.isCheck = false;
+            });
+            this.userList = this.userList.concat(res.data.data);
+            this.isOver = res.data.data.length < pagesize;
+          },
+        });
       });
     },
   },

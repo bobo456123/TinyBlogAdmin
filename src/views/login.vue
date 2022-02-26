@@ -64,7 +64,7 @@ export default {
     return {
       model: {
         username: "admin",
-        password: "123",
+        password: "123123",
       },
       rememberPWD: this.$cookie.get("rememberPWD") == "1" ? 1 : 0,
     };

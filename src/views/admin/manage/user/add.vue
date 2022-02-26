@@ -210,8 +210,12 @@ export default {
     },
     addUser() {
       this.$refs.tform
-        .validate()
-        .then(() => {
+        .hasInvalid() //放弃validate方法，防止等待异步验证。
+        .then((error) => {
+          console.log("error");
+          this.$layer.popup(error, "error");
+        })
+        .catch(() => {
           addUser(this.model)
             .then(() => {
               this.$layer.popup({
@@ -228,27 +232,7 @@ export default {
             .catch(() => {
               this.$layer.popup("用户创建失败！", "error");
             });
-        })
-        .catch((error) => {
-          this.$layer.popup(error, "error");
         });
-      addUser;
-      // addUser(this.model)
-      //   .then(() => {
-      //     this.$layer.popup({
-      //       props: {
-      //         content: "用户创建成功！",
-      //       },
-      //       on: {
-      //         close: () => {
-      //           this.reset();
-      //         },
-      //       },
-      //     });
-      //   })
-      //   .catch(() => {
-      //     this.$layer.popup("用户创建失败！", "error");
-      //   });
     },
   },
 };

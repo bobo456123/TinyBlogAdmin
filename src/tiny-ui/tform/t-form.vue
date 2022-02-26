@@ -32,6 +32,10 @@ export default {
     this.$on("validate", this.validate);
   },
   methods: {
+    //是否有验证失败的项目？
+    hasInvalid(){
+      return Promise.race(this.fields.map(item=>item.hasInvalid()));
+    },
     validate() {
       return this.fields.reduce(function (promise, formItem) {
         return promise.then(function () {

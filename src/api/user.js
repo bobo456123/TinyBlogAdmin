@@ -39,6 +39,14 @@ export function create(param) {
         data: param
     });
 }
+//删除用户
+export function destroyUsers(param) {
+    return request({
+        url: "/api/user",
+        method: "delete",
+        data: param
+    });
+}
 //获取用户信息
 export function getUserByUsername(username) {
     return request({

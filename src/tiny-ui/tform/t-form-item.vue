@@ -86,6 +86,35 @@ export default {
         );
       });
     },
+    //上面的逆向，在上层验证时，一个错就立即停止，方便上层借助Promise.race实现；
+    hasInvalid() {
+      // 校验, 返回Promise
+      return new Promise((r, j) => {
+        // 校验规则
+        const rules = this.form.rules[this.prop];
+        if (!rules) {
+          return j();
+        }
+        // 当前值
+        const value = this.form.model[this.prop];
+
+        // 创建一个校验器实例
+        const validator = new Validator({ [this.prop]: rules });
+        validator.validate(
+          { [this.prop]: value },
+          { first: true },  //只有一个验证没通过，后面不再继续验证
+          (errors) => {
+            if (errors) {
+              this.error = errors[0].message;
+              r(this.error);
+            } else {
+              this.error = "";
+              j();
+            }
+          }
+        );
+      });
+    },
   },
 };
 </script>

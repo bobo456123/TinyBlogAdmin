@@ -63,6 +63,11 @@ export default {
         layer.show();
         return layer;
     },
+    confirm: function (option) {
+        let layer = this._create(modules.confirm, option || {});
+        layer.show();
+        return layer;
+    },
     popup: function (option) {
         if (typeof option === "string") {
             option = {
