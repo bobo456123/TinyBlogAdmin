@@ -23,7 +23,7 @@
                 <input
                   type="checkbox"
                   class="typecho-table-select-all"
-                  :checked="isAll?'checked':''"
+                  :checked="isAll ? 'checked' : ''"
                 />
               </label>
               <div class="btn-group btn-drop">
@@ -145,7 +145,7 @@
 </template>
 
 <script>
-import { list as userList } from "@/api/user";
+import { list as userList, destroyUsers } from "@/api/user";
 export default {
   name: "users",
   data() {
@@ -171,22 +171,35 @@ export default {
   },
   methods: {
     selectAll() {
-      let flag=this.isAll;
+      let flag = this.isAll;
       this.userList.forEach((item) => (item.isCheck = !flag));
     },
     removeUsers() {
-      let ids = this.selectedItemId.join(",");
-      console.log(ids);
-      // this.$layer.confirm({
-      //   props: {
-      //     content: "确定删除用户?",
-      //   },
-      //   on: {
-      //     sure: () => {
-
-      //     },
-      //   },
-      // });
+      let ids = this.selectedItemId;
+      this.isShow.patchDropdown = false;
+      this.$layer.confirm({
+        props: {
+          content: "确定删除用户?",
+        },
+        on: {
+          sure: () => {
+            destroyUsers({ ids: ids }).then((res) => {
+              this.$util.resDo(res, {
+                0: () => {
+                  this.$layer.popup("删除成功！");
+                  this.userList = [];
+                  this.getUserList({});
+                },
+                default: (res) => {
+                  this.$layer.popup({
+                    props: { content: res.message, type: "error" },
+                  });
+                },
+              });
+            });
+          },
+        },
+      });
     },
     getUserList: function (param) {
       let { index = 1, pagesize = this.$settings.pagesize } = param;

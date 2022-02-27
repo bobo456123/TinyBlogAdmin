@@ -27,14 +27,14 @@ export default {
                     //vm===返回的layer
                     console.log("sure", vm);
                 },
-                close: function (vm) {
-                    vm.$remove();
-                }
+                // close: function (vm) {
+                //     vm.$remove();
+                // }
             },
             popup: {
-                close: function () {
-                    // vm.$remove();
-                }
+                // close: function () {
+                // vm.$remove();
+                // }
             }
         };
         //方案一：渲染函数
@@ -49,6 +49,7 @@ export default {
         }).$mount();
         const layer = vm.$children[0];
         layer.$remove = function () {
+            //等同于在弹窗组件中设置v-if=false
             document.body.removeChild(layer.$el);
             layer.$destroy();
         }

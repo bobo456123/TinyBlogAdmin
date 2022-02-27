@@ -42,7 +42,7 @@ export function create(param) {
 //删除用户
 export function destroyUsers(param) {
     return request({
-        url: "/api/user",
+        url: "/api/user/destroyUsers",
         method: "delete",
         data: param
     });
