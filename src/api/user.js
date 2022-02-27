@@ -39,6 +39,21 @@ export function create(param) {
         data: param
     });
 }
+//更新用户
+export function update(uid, param) {
+    return request({
+        url: `/api/user/${uid}`,
+        method: "put",
+        data: param
+    });
+}
+//编辑用户
+export function edit(uid) {
+    return request({
+        url: `/api/user/${uid}/edit`,
+        method: "get"
+    });
+}
 //删除用户
 export function destroyUsers(param) {
     return request({

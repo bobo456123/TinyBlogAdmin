@@ -209,9 +209,9 @@ const manage = [
                 }
             },
             {
-                path: "edit/:cid",
+                path: "edit/:uid",
                 name: "user-edit",
-                component: () => import("@/views/admin/manage/user/edit"),
+                component: () => import("@/views/admin/manage/user/add"),
                 meta: {
                     title: "编辑用户"
                 }

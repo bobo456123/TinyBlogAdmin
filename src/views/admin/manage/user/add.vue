@@ -10,7 +10,7 @@
   <div class="main">
     <div class="body container">
       <div class="typecho-page-title">
-        <h2>新增用户</h2>
+        <h2>{{ pageTitle }}</h2>
       </div>
       <div class="row typecho-page-main" role="form">
         <div class="col-mb-12 col-tb-6 col-tb-offset-3">
@@ -94,7 +94,9 @@
             </t-form-item>
 
             <t-form-item>
-              <button @click="addUser">增加用户</button>
+              <button @click="submit">
+                {{ pageMode == "add" ? "创建" : "更新" }}
+              </button>
             </t-form-item>
           </t-form>
         </div>
@@ -104,24 +106,39 @@
 </template>
 
 <script>
-import { create as addUser, getUserByUsername } from "@/api/user";
-// import tForm from "@/components/tform";
-// import tFormItem from "@/components/tform/t-form-item";
-// import tInput from "@/components/tform/t-input";
-// import tSelect from "@/components/tform/t-select";
-// import tOption from "@/components/tform/t-select/t-option";
+import {
+  create as addUser,
+  update as updateUser,
+  edit as editUser,
+  getUserByUsername,
+} from "@/api/user";
 
 export default {
   name: "userAdd",
-  // components: {
-  //   "t-form": tForm,
-  //   "t-form-item": tFormItem,
-  //   "t-input": tInput,
-  //   "t-select": tSelect,
-  //   "t-option": tOption,
-  // },
+  computed: {
+    pageTitle() {
+      let map = { add: "新增用户", edit: "编辑用户" };
+      return map[this.pageMode];
+    },
+  },
+  created() {
+    console.log("created");
+    //编辑模式，拉取初始数据
+    this.pageMode == "edit" &&
+      editUser(this.$route.params.uid).then((res) => {
+        this.$util.resDo(res, {
+          0: (res) => {
+            console.log("res", res);
+            this.model = res.data;
+            this.oldUsername = this.model.username;
+          },
+        });
+      });
+  },
   data() {
     return {
+      oldUsername: "",
+      pageMode: this.$route.path.indexOf("/edit/") > 0 ? "edit" : "add",
       model: {
         username: "",
         email: "",
@@ -143,6 +160,12 @@ export default {
             asyncValidator: this.$util.debounceAsync((rule, value) => {
               //返回的Promise->reject必须要有参数
               return new Promise((r, j) => {
+                if (
+                  this.pageMode == "edit" &&
+                  this.oldUsername.trim() == value.trim()
+                ) {
+                  return r(true);
+                }
                 getUserByUsername(value)
                   .then((res) => {
                     this.$util.resDo(res, {
@@ -173,17 +196,33 @@ export default {
         ],
         screenName: [{ required: true, message: "必须输入用户昵称" }],
         password: [
-          { required: true, message: "必须输入密码" },
+          {
+            message: "必须输入密码",
+            validator: (rule, value) => {
+              if (this.pageMode == "edit") return true;
+              return !!value.trim();
+            },
+          },
           {
             message: '必须是3到18位 "_、数字或字母"',
             pattern: new RegExp("^\\w{3,18}$"),
           },
         ],
         confirm: [
-          { type: "string", required: true, message: "必须输入密码确认" },
+          {
+            message: "必须输入确认密码",
+            validator: (rule, value) => {
+              if (this.pageMode == "edit") return true;
+              return !!value.trim();
+            },
+          },
           {
             message: "两次密码输入不一致",
-            validator: (rule, value) => value === this.model.password,
+            validator: (rule, value) => {
+              console.log("------", value, this.model.password);
+              if (!value && !this.model.password) return true;
+              return value === this.model.password;
+            },
           },
         ],
         url: [
@@ -196,6 +235,10 @@ export default {
     };
   },
   methods: {
+    submit() {
+      let fn = this.pageMode == "add" ? this.addUser : this.updateUser;
+      fn.call(this);
+    },
     reset() {
       getUserByUsername;
       this.model = {
@@ -210,12 +253,9 @@ export default {
     },
     addUser() {
       this.$refs.tform
-        .hasInvalid() //放弃validate方法，防止等待异步验证。
-        .then((error) => {
-          console.log("error");
-          this.$layer.popup(error, "error");
-        })
-        .catch(() => {
+        .validate()
+        .then(() => {
+          console.log("continue");
           addUser(this.model)
             .then(() => {
               this.$layer.popup({
@@ -232,6 +272,35 @@ export default {
             .catch(() => {
               this.$layer.popup("用户创建失败！", "error");
             });
+        })
+        .catch((error) => {
+          console.log("error");
+          this.$layer.popup(error, "error");
+        });
+    },
+    updateUser() {
+      this.$refs.tform
+        .validate()
+        .then(() => {
+          updateUser(this.$route.params.uid, this.model)
+            .then(() => {
+              this.$layer.popup({
+                props: {
+                  content: "更新成功！",
+                },
+                on: {
+                  close: () => {
+                    this.$router.push("/admin/manage/user/list");
+                  },
+                },
+              });
+            })
+            .catch(() => {
+              this.$layer.popup("用户更新失败！", "error");
+            });
+        })
+        .catch((error) => {
+          this.$layer.popup(error, "error");
         });
     },
   },

@@ -51,8 +51,13 @@
                 class="text-s"
                 placeholder="请输入关键字"
                 v-model="keyword"
+                @keyup.enter="search"
               />
-              <button type="submit" class="btn btn-s" @click="getUserList">
+              <button
+                type="submit"
+                class="btn btn-s"
+                @click="search"
+              >
                 筛选
               </button>
             </div>
@@ -200,6 +205,10 @@ export default {
           },
         },
       });
+    },
+    search() {
+      this.userList = [];
+      this.getUserList({});
     },
     getUserList: function (param) {
       let { index = 1, pagesize = this.$settings.pagesize } = param;
